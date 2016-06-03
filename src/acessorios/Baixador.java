@@ -1,44 +1,32 @@
 package acessorios;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
 
-import org.apache.commons.io.FileUtils;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 
 public class Baixador {
 
-	/**
-	 * @param args
-	 */
-	public static void baixar(){
-		// TODO Auto-generated method stub
 
-		File destino = new File("1.xml");
+	public static void baixar() {
+		String projeto = "PPGI-UNIRIO";
+		String professor = "1841338064901299";
+//		String caminho = "https://s3.amazonaws.com/posgraduacao/" + projeto
+//				+ "/contents.xml";
+		String caminhoprofessor = "https://s3.amazonaws.com/posgraduacao/" + projeto + "/" + professor +".zip";
+		URL website;
+		String destino = "1.zip";
 		try {
-			URL link = new URL(
-					"https://s3.amazonaws.com/posgraduacao/programas.xml");
-			FileUtils.copyURLToFile(link, destino);
+			website = new URL(caminhoprofessor);
+			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+			FileOutputStream fos = new FileOutputStream(destino);
+			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+			System.out.println("Arquivo baixado para : " +destino);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		String source = "1.zip";
-		String destination = "pasta";
-		String password = "password";
-
-		try {
-			ZipFile zipFile = new ZipFile(source);
-			if (zipFile.isEncrypted()) {
-				zipFile.setPassword(password);
-			}
-			zipFile.extractAll(destination);
-		} catch (ZipException e) {
-			e.printStackTrace();
-		}
+		
 	}
-
 }

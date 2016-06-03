@@ -1,4 +1,5 @@
 import acessorios.Baixador;
+import acessorios.Descompactador;
 
 
 public class main {
@@ -10,6 +11,7 @@ public class main {
 		// TODO Auto-generated method stub
 
 		Baixador.baixar();
+		Descompactador.descompactar();
 		
 	}
 
