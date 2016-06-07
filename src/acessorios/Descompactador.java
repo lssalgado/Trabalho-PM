@@ -12,13 +12,13 @@ public class Descompactador {
 
 	final static int BUFFER = 2048;
 
-	public static void descompactar() {
+	public static void descompactar(String arquivo) {
 		
 		FileInputStream zipinho;
 		try {
 			String destino = null;
 			BufferedOutputStream dest = null;
-			zipinho = new FileInputStream("1.zip");
+			zipinho = new FileInputStream(arquivo);
 			ZipInputStream zipOrigem = new ZipInputStream(
 					new BufferedInputStream(zipinho));
 			ZipEntry entry;
@@ -26,7 +26,7 @@ public class Descompactador {
 				int count;
 				byte data[] = new byte[BUFFER];
 				// write the files to the disk
-				destino = "curriculos/" + entry.getName();
+				destino = "curriculos/" + arquivo.substring(0, (arquivo.length() - 4)) + "-" + entry.getName();
 				FileOutputStream fos = new FileOutputStream(destino);
 				dest = new BufferedOutputStream(fos, BUFFER);
 				while ((count = zipOrigem.read(data, 0, BUFFER)) != -1) {
@@ -37,6 +37,7 @@ public class Descompactador {
 			}
 			zipOrigem.close();
 			System.out.println("Conteúdo descompactado para : " +destino);
+//			LeitorXML.leArquivo(destino);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
