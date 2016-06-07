@@ -12,13 +12,13 @@ public class Baixador {
 	public static void baixar() {
 		String projeto = "PPGI-UNIRIO";
 		String professor = "1841338064901299";
-//		String caminho = "https://s3.amazonaws.com/posgraduacao/" + projeto
-//				+ "/contents.xml";
-		String caminhoprofessor = "https://s3.amazonaws.com/posgraduacao/" + projeto + "/" + professor +".zip";
+		String caminho = "https://s3.amazonaws.com/posgraduacao/" + projeto
+				+ "/contents.xml";
+//		String caminhoprofessor = "https://s3.amazonaws.com/posgraduacao/" + projeto + "/" + professor +".zip";
 		URL website;
-		String destino = "1.zip";
+		String destino = "1.xml";
 		try {
-			website = new URL(caminhoprofessor);
+			website = new URL(caminho);
 			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
 			FileOutputStream fos = new FileOutputStream(destino);
 			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
