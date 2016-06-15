@@ -3,16 +3,35 @@ package accessories;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.Element;
-
 import model.LinhaDePesquisa;
+import model.Professor;
+
+import org.w3c.dom.Element;
 
 public class LeitorXML {
 
+	
+	public List<Professor> alimentaProfessores(List<Professor> professores, int anoInicial, int anoFinal){
+		
+		List<Professor> prfs = professores;
+		String filePath;
+		for (Professor prof : prfs){
+			
+			filePath = "curriculos/" + prof.getCodigo() + "-curriculo.xml";
+			
+			
+		}
+		return prfs;
+		
+		
+		
+		
+	}
+	
 	/**
 	 * Retorna a quantidade de artigos de dado professor
 	 */
-	public static List<Element> getArtigos(String filePath, String anoInicial, String anoFinal) {
+	private List<Professor> getArtigos(String filePath, int anoInicial, int anoFinal) {
 
 		List<Element> artigos = FactoryXML.getElementoXml(filePath, "ARTIGO-PUBLICADO");
 		for (Element e : artigos) {
@@ -43,15 +62,15 @@ public class LeitorXML {
 	 * professor obedecendo as datas @anoInicial e @anoFinal através de um
 	 * arquivo @filepath
 	 */
-	public static int getOrientacaoMestradoAndamento(String filePath, String anoInicial, String anoFinal) {
+	private int getOrientacaoMestradoAndamento(String filePath, int anoInicial, int anoFinal) {
 
 		int a = 0;
 		List<Element> bancas = FactoryXML.getElementoXml(filePath, "ORIENTACAO-EM-ANDAMENTO-DE-MESTRADO");
 		for (Element e : bancas) {
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DA-ORIENTACAO-EM-ANDAMENTO-DE-MESTRADO");
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= Integer.parseInt(anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= Integer.parseInt(anoFinal)) {
+				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
+						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
 					a++;
 				}
 			}
@@ -65,15 +84,15 @@ public class LeitorXML {
 	 * obedecendo as datas @anoInicial e @anoFinal através de um
 	 * arquivo @filepath
 	 */
-	public static int getOrientacaoTCCAndamento(String filePath, String anoInicial, String anoFinal) {
+	private int getOrientacaoTCCAndamento(String filePath, int anoInicial, int anoFinal) {
 
 		int a = 0;
 		List<Element> bancas = FactoryXML.getElementoXml(filePath, "ORIENTACAO-EM-ANDAMENTO-DE-GRADUACAO");
 		for (Element e : bancas) {
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DA-ORIENTACAO-EM-ANDAMENTO-DE-GRADUACAO");
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= Integer.parseInt(anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= Integer.parseInt(anoFinal)) {
+				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
+						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
 					a++;
 				}
 			}
@@ -87,15 +106,15 @@ public class LeitorXML {
 	 * professor obedecendo as datas @anoInicial e @anoFinal através de um
 	 * arquivo @filepath
 	 */
-	public static int getOrientacaoDoutoradoAndamento(String filePath, String anoInicial, String anoFinal) {
+	private int getOrientacaoDoutoradoAndamento(String filePath, int anoInicial, int anoFinal) {
 
 		int a = 0;
 		List<Element> bancas = FactoryXML.getElementoXml(filePath, "ORIENTACAO-EM-ANDAMENTO-DE-DOUTORADO");
 		for (Element e : bancas) {
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DA-ORIENTACAO-EM-ANDAMENTO-DE-DOUTORADO");
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= Integer.parseInt(anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= Integer.parseInt(anoFinal)) {
+				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
+						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
 					a++;
 				}
 			}
@@ -109,15 +128,15 @@ public class LeitorXML {
 	 * professor obedecendo as datas @anoInicial e @anoFinal através de um
 	 * arquivo @filepath
 	 */
-	public static int getOrientacaoMestradoConcluida(String filePath, String anoInicial, String anoFinal) {
+	private int getOrientacaoMestradoConcluida(String filePath, int anoInicial, int anoFinal) {
 
 		int a = 0;
 		List<Element> bancas = FactoryXML.getElementoXml(filePath, "ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
 		for (Element e : bancas) {
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= Integer.parseInt(anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= Integer.parseInt(anoFinal)) {
+				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
+						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
 					a++;
 				}
 			}
@@ -131,15 +150,15 @@ public class LeitorXML {
 	 * obedecendo as datas @anoInicial e @anoFinal através de um
 	 * arquivo @filepath
 	 */
-	public static int getOrientacaoTCCConcluida(String filePath, String anoInicial, String anoFinal) {
+	private int getOrientacaoTCCConcluida(String filePath, int anoInicial, int anoFinal) {
 
 		int a = 0;
 		List<Element> bancas = FactoryXML.getElementoXml(filePath, "OUTRAS-ORIENTACOES-CONCLUIDAS");
 		for (Element e : bancas) {
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS");
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= Integer.parseInt(anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= Integer.parseInt(anoFinal)
+				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
+						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)
 						&& XmlUtils.getStringAttribute(es, "NATUREZA")
 								.contentEquals("TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO")) {
 					a++;
@@ -155,15 +174,15 @@ public class LeitorXML {
 	 * professor obedecendo as datas @anoInicial e @anoFinal através de um
 	 * arquivo @filepath
 	 */
-	public static int getOrientacaoDoutoradoConcluida(String filePath, String anoInicial, String anoFinal) {
+	private int getOrientacaoDoutoradoConcluida(String filePath, int anoInicial, int anoFinal) {
 
 		int a = 0;
 		List<Element> bancas = FactoryXML.getElementoXml(filePath, "ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
 		for (Element e : bancas) {
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= Integer.parseInt(anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= Integer.parseInt(anoFinal)) {
+				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
+						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
 					a++;
 				}
 			}
@@ -176,15 +195,15 @@ public class LeitorXML {
 	 * Retorna a quantidade de bancas de Mestrado de dado professor obedecendo
 	 * as datas @anoInicial e @anoFinal através de um arquivo @filepath
 	 */
-	public static int getBancasMestrado(String filePath, String anoInicial, String anoFinal) {
+	private int getBancasMestrado(String filePath, int anoInicial, int anoFinal) {
 
 		int a = 0;
 		List<Element> bancas = FactoryXML.getElementoXml(filePath, "PARTICIPACAO-EM-BANCA-DE-MESTRADO");
 		for (Element e : bancas) {
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DA-PARTICIPACAO-EM-BANCA-DE-MESTRADO");
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= Integer.parseInt(anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= Integer.parseInt(anoFinal)) {
+				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
+						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
 					a++;
 				}
 			}
@@ -197,15 +216,15 @@ public class LeitorXML {
 	 * Retorna a quantidade de bancas de Doutorado de dado professor obedecendo
 	 * as datas @anoInicial e @anoFinal através de um arquivo @filepath
 	 */
-	public static int getBancasDoutorado(String filePath, String anoInicial, String anoFinal) {
+	private int getBancasDoutorado(String filePath, int anoInicial, int anoFinal) {
 
 		int a = 0;
 		List<Element> bancas = FactoryXML.getElementoXml(filePath, "PARTICIPACAO-EM-BANCA-DE-DOUTORADO");
 		for (Element e : bancas) {
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DA-PARTICIPACAO-EM-BANCA-DE-DOUTORADO");
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= Integer.parseInt(anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= Integer.parseInt(anoFinal)) {
+				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
+						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
 					a++;
 				}
 			}
@@ -218,15 +237,15 @@ public class LeitorXML {
 	 * Retorna a quantidade de bancas de Graduação de dado professor obedecendo
 	 * as datas @anoInicial e @anoFinal através de um arquivo @filepath
 	 */
-	public static int getBancasGraduacao(String filePath, String anoInicial, String anoFinal) {
+	private int getBancasGraduacao(String filePath, int anoInicial, int anoFinal) {
 
 		int a = 0;
 		List<Element> bancas = FactoryXML.getElementoXml(filePath, "PARTICIPACAO-EM-BANCA-DE-GRADUACAO");
 		for (Element e : bancas) {
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DA-PARTICIPACAO-EM-BANCA-DE-GRADUACAO");
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= Integer.parseInt(anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= Integer.parseInt(anoFinal)) {
+				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
+						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
 					a++;
 				}
 			}
@@ -240,7 +259,7 @@ public class LeitorXML {
 	 * Retorna uma lista de LinhaDePesquisa após alimentar a mesma com os dados
 	 * de seus respectivos professores
 	 */
-	public static List<LinhaDePesquisa> getProfessor(Element e, List<LinhaDePesquisa> ldp) {
+	private List<LinhaDePesquisa> getProfessor(Element e, List<LinhaDePesquisa> ldp) {
 
 		List<Element> l = XmlUtils.getElements(e, "professor");
 		for (Element es : l) {
@@ -269,7 +288,7 @@ public class LeitorXML {
 	/**
 	 * Retorna uma lista de LinhaDePesquisa obtida através do aquivo @filePath
 	 */
-	public static List<LinhaDePesquisa> getLinhas(String filePath) {
+	private List<LinhaDePesquisa> getLinhas(String filePath) {
 
 		List<LinhaDePesquisa> ldp = new ArrayList<LinhaDePesquisa>();
 		String tagName = "linha";
@@ -288,7 +307,7 @@ public class LeitorXML {
 
 	}
 
-//	public static int countBancasMestrado(String filePath) {
+//	private int countBancasMestrado(String filePath) {
 //
 //		String tagName = "";
 //

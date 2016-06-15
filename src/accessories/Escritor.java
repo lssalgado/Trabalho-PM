@@ -9,6 +9,8 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.List;
 
+import com.sun.servicetag.SystemEnvironment;
+
 import model.LinhaDePesquisa;
 import model.Professor;
 
@@ -20,14 +22,14 @@ public class Escritor {
 		try {
 			Writer escritor = new BufferedWriter(new OutputStreamWriter(
 					new FileOutputStream(programa + ".txt"), "utf-8"));
-
+			String breakLine = System.getProperty("line.separator");
 			for (LinhaDePesquisa ldp : linhaDePesquisa) {
 
 				List<Professor> professores = ldp.getProfessores();
 
 				for (Professor prf : professores) {
 
-					escritor.write(prf.getNome() + "	" + prf.getCodigo() + "\n");
+					escritor.write(prf.getNome() + "	" + prf.getCodigo() + breakLine);
 					System.out.println(prf.getNome() + "	" + prf.getCodigo());
 
 				}

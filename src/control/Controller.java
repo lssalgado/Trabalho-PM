@@ -22,21 +22,22 @@ public class Controller {
 
 	private static List<LinhaDePesquisa> linhaDePesquisa;
 
-	public static void controller(String project, String start, String stop) {
+	public void controller(String project, String start, String stop) {
 
 	}
 
-	public static void start() {
+	public void start() {
 
+		LeitorXML leitor = new LeitorXML();
 		String project = "PPGI-UNIRIO";
 		Baixador.downloadProject(project);
 		Baixador.downloadQualis();
 		String tagName = "linha";
-		linhaDePesquisa = LeitorXML.getLinhas("contents.xml");
+		linhaDePesquisa = leitor.getLinhas("contents.xml");
 		List<Element> lines = FactoryXML.getElementoXml("contents.xml", tagName);
 		for (Element e : lines) {
-
-			linhaDePesquisa = LeitorXML.getProfessor(e, linhaDePesquisa);
+//fazer o getlinhas chamar getprofessores, o getprofessores chamar um getcurriculo e este chamar todo o resto.
+			linhaDePesquisa = leitor.getProfessor(e, linhaDePesquisa);
 
 		}
 
@@ -47,13 +48,13 @@ public class Controller {
 			for (Professor prf : ldp.getProfessores()) {
 
 				// Baixador.downloadProfessor(project, prf.getCodigo());
-				int mestrado = LeitorXML.getBancasMestrado("curriculos/" + prf.getCodigo() + "-curriculo.xml", "2013", "2015");
+				int mestrado = leitor.getBancasMestrado("curriculos/" + prf.getCodigo() + "-curriculo.xml", 2013, 2015);
 				prf.setBancasMestrado(mestrado);
-				int doutorado = LeitorXML.getBancasDoutorado("curriculos/" + prf.getCodigo() + "-curriculo.xml", "2013", "2015");
+				int doutorado = leitor.getBancasDoutorado("curriculos/" + prf.getCodigo() + "-curriculo.xml", 2013, 2015);
 				prf.setBancasDoutorado(doutorado);
-				int graduacao = LeitorXML.getBancasGraduacao("curriculos/" + prf.getCodigo() + "-curriculo.xml", "2013", "2015");
+				int graduacao = leitor.getBancasGraduacao("curriculos/" + prf.getCodigo() + "-curriculo.xml", 2013, 2015);
 				prf.setBancasGraduacao(graduacao);
-				LeitorXML.getArtigos("curriculos/" + prf.getCodigo() + "-curriculo.xml", "2013", "2015");
+				leitor.getArtigos("curriculos/" + prf.getCodigo() + "-curriculo.xml", 2013, 2015);
 			}
 
 		}
