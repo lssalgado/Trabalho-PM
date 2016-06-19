@@ -9,8 +9,6 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.List;
 
-import com.sun.servicetag.SystemEnvironment;
-
 import model.LinhaDePesquisa;
 import model.Professor;
 
