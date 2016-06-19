@@ -2,86 +2,59 @@ package model;
 
 public class Artigos {
 
-	private TipoArtigo tipoArquivo;
-	private int artigoA1;
-	private int artigoA2;
-	private int artigoB1;
-	private int artigoB2;
-	private int artigoB3;
-	private int artigoB4;
-	private int artigoC;
-	private int artigoNC;
+	private TipoArtigo tipoArtigo;
+	private NivelArtigo nivelArtigo;
+	private int ano;
+	private String veiculo;
+	private String titulo;
+	private Situacao situacao;
 
-	public TipoArtigo getTipoArquivo() {
-		return tipoArquivo;
+	public Situacao getSituacao() {
+		return situacao;
 	}
 
-	public void setTipoArquivo(TipoArtigo tipoArquivo) {
-		this.tipoArquivo = tipoArquivo;
+	public void setSituacao(Situacao situacao) {
+		this.situacao = situacao;
 	}
 
-	public int getArtigoA1() {
-		return artigoA1;
+	public TipoArtigo getTipoArtigo() {
+		return tipoArtigo;
 	}
 
-	public void setArtigoA1(int artigoA1) {
-		this.artigoA1 = artigoA1;
+	public void setTipoArtigo(TipoArtigo tipoArquivo) {
+		this.tipoArtigo = tipoArquivo;
 	}
 
-	public int getArtigoA2() {
-		return artigoA2;
+	public NivelArtigo getNivelArtigo() {
+		return nivelArtigo;
 	}
 
-	public void setArtigoA2(int artigoA2) {
-		this.artigoA2 = artigoA2;
+	public void setNivelArtigo(NivelArtigo nivelArtigo) {
+		this.nivelArtigo = nivelArtigo;
 	}
 
-	public int getArtigoB1() {
-		return artigoB1;
+	public int getAno() {
+		return ano;
 	}
 
-	public void setArtigoB1(int artigoB1) {
-		this.artigoB1 = artigoB1;
+	public void setAno(int ano) {
+		this.ano = ano;
 	}
 
-	public int getArtigoB2() {
-		return artigoB2;
+	public String getVeiculo() {
+		return veiculo;
 	}
 
-	public void setArtigoB2(int artigoB2) {
-		this.artigoB2 = artigoB2;
+	public void setVeiculo(String veiculo) {
+		this.veiculo = veiculo;
 	}
 
-	public int getArtigoB3() {
-		return artigoB3;
+	public String getTitulo() {
+		return titulo;
 	}
 
-	public void setArtigoB3(int artigoB3) {
-		this.artigoB3 = artigoB3;
-	}
-
-	public int getArtigoB4() {
-		return artigoB4;
-	}
-
-	public void setArtigoB4(int artigoB4) {
-		this.artigoB4 = artigoB4;
-	}
-
-	public int getArtigoC() {
-		return artigoC;
-	}
-
-	public void setArtigoC(int artigoC) {
-		this.artigoC = artigoC;
-	}
-
-	public int getArtigoNC() {
-		return artigoNC;
-	}
-
-	public void setArtigoNC(int artigoNC) {
-		this.artigoNC = artigoNC;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 }

@@ -2,6 +2,6 @@ package model;
 
 public enum Situacao {
 
-	CONCLUIDO, ANDAMENTO;
+	CONCLUIDO, ANDAMENTO, RESUMO_EXPANDIDO;
 
 }

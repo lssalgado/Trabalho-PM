@@ -3,56 +3,122 @@ package accessories;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.LinhaDePesquisa;
-import model.Professor;
-
 import org.w3c.dom.Element;
+
+import model.Artigos;
+import model.LinhaDePesquisa;
+import model.Qualis;
+import model.Situacao;
+import model.TipoArtigo;
 
 public class LeitorXML {
 
-	
-	public List<Professor> alimentaProfessores(List<Professor> professores, int anoInicial, int anoFinal){
-		
-		List<Professor> prfs = professores;
-		String filePath;
-		for (Professor prof : prfs){
-			
-			filePath = "curriculos/" + prof.getCodigo() + "-curriculo.xml";
-			
-			
-		}
-		return prfs;
-		
-		
-		
-		
-	}
-	
 	/**
-	 * Retorna a quantidade de artigos de dado professor
+	 * Retorna uma lista de artigos de revista.
 	 */
-	private List<Professor> getArtigos(String filePath, int anoInicial, int anoFinal) {
+	public List<Artigos> getArtigosRevista(String filePath, int anoInicial, int anoFinal) {
+
+		List<Artigos> listaArtigos = new ArrayList<Artigos>();
 
 		List<Element> artigos = FactoryXML.getElementoXml(filePath, "ARTIGO-PUBLICADO");
 		for (Element e : artigos) {
 
+			Artigos artg = new Artigos();
+			String revista = "";
+			String situacao = "";
+			String titulo = "";
+			int ano = 0;
+
 			List<Element> l = XmlUtils.getElements(e, "DETALHAMENTO-DO-ARTIGO");
 			for (Element es : l) {
-				// System.out.println(XmlUtils.getStringAttribute(es,
-				// "TITULO-DO-PERIODICO-OU-REVISTA"));
+
+				revista = XmlUtils.getStringAttribute(es, "TITULO-DO-PERIODICO-OU-REVISTA");
 
 			}
+
 			List<Element> lista = XmlUtils.getElements(e, "DADOS-BASICOS-DO-ARTIGO");
 			for (Element ls : lista) {
-				// String lp = XmlUtils.getStringAttribute(ls,
-				// "TITULO-DO-ARTIGO");
-				// System.out.println(lp);
-				// String pl = XmlUtils.getStringAttribute(ls, "ANO-DO-ARTIGO");
-				// System.out.println(pl);
-				System.out.println(XmlUtils.getStringAttribute(ls, "MEIO-DE-DIVULGACAO"));
+
+				situacao = XmlUtils.getStringAttribute(ls, "NATUREZA");
+				ano = XmlUtils.getIntAttribute(ls, "ANO-DO-ARTIGO");
+				titulo = XmlUtils.getStringAttribute(ls, "TITULO-DO-ARTIGO");
+				
+				if (situacao.equals("Completo")){
+					
+					artg.setSituacao(Situacao.CONCLUIDO);
+					
+				} else {
+					
+					artg.setSituacao(Situacao.ANDAMENTO);
+					
+				}
 
 			}
+
+			artg.setAno(ano);
+			artg.setTitulo(titulo);
+			artg.setVeiculo(revista);
+			artg.setTipoArtigo(TipoArtigo.ARTIGO_REVISTA);
+			
+			listaArtigos.add(artg);
+
 		}
+		
+		return listaArtigos;
+
+	}
+	
+	/**
+	 * Retorna uma lista de Artigos de Eventos 
+	 */
+	public List<Artigos> getArtigosEvento(String filePath, int anoInicial, int anoFinal) {
+
+		List<Artigos> listaArtigos = new ArrayList<Artigos>();
+
+		List<Element> artigos = FactoryXML.getElementoXml(filePath, "TRABALHO-EM-EVENTOS");
+		for (Element e : artigos) {
+
+			Artigos artg = new Artigos();
+			String revista = "";
+			String situacao = "";
+			String titulo = "";
+			int ano = 0;
+
+			List<Element> l = XmlUtils.getElements(e, "DETALHAMENTO-DO-TRABALHO");
+			for (Element es : l) {
+
+				revista = XmlUtils.getStringAttribute(es, "NOME-DO-EVENTO");
+
+			}
+
+			List<Element> lista = XmlUtils.getElements(e, "DADOS-BASICOS-DO-TRABALHO");
+			for (Element ls : lista) {
+
+				situacao = XmlUtils.getStringAttribute(ls, "NATUREZA");
+				ano = XmlUtils.getIntAttribute(ls, "ANO-DO-TRABALHO");
+				titulo = XmlUtils.getStringAttribute(ls, "TITULO-DO-TRABALHO");
+				
+				if (situacao.equals("Completo")){
+					
+					artg.setSituacao(Situacao.CONCLUIDO);
+					
+				} else {
+					
+					artg.setSituacao(Situacao.RESUMO_EXPANDIDO);
+					
+				}
+
+			}
+
+			artg.setAno(ano);
+			artg.setTitulo(titulo);
+			artg.setVeiculo(revista);
+			artg.setTipoArtigo(TipoArtigo.ARTIGO_REVISTA);
+			
+			listaArtigos.add(artg);
+
+		}
+		System.out.println(artigos.size());
 		return null;
 
 	}
@@ -259,7 +325,7 @@ public class LeitorXML {
 	 * Retorna uma lista de LinhaDePesquisa após alimentar a mesma com os dados
 	 * de seus respectivos professores
 	 */
-	private List<LinhaDePesquisa> getProfessor(Element e, List<LinhaDePesquisa> ldp) {
+	public List<LinhaDePesquisa> getProfessor(Element e, List<LinhaDePesquisa> ldp) {
 
 		List<Element> l = XmlUtils.getElements(e, "professor");
 		for (Element es : l) {
@@ -284,11 +350,10 @@ public class LeitorXML {
 		return ldp;
 	}
 
-	
 	/**
 	 * Retorna uma lista de LinhaDePesquisa obtida através do aquivo @filePath
 	 */
-	private List<LinhaDePesquisa> getLinhas(String filePath) {
+	public List<LinhaDePesquisa> getLinhas(String filePath) {
 
 		List<LinhaDePesquisa> ldp = new ArrayList<LinhaDePesquisa>();
 		String tagName = "linha";
@@ -307,17 +372,52 @@ public class LeitorXML {
 
 	}
 
-//	private int countBancasMestrado(String filePath) {
-//
-//		String tagName = "";
-//
-//		List<Element> bancas = FactoryXML.getElementoXml(filePath, tagName);
-//
-//		for (Element e : bancas) {
-//
-//		}
-//
-//		return 0;
-//	}
+	// private int countBancasMestrado(String filePath) {
+	//
+	// String tagName = "";
+	//
+	// List<Element> bancas = FactoryXML.getElementoXml(filePath, tagName);
+	//
+	// for (Element e : bancas) {
+	//
+	// }
+	//
+	// return 0;
+	// }
+
+	public List<Qualis> getQualis() {
+
+		List<Qualis> qualis = new ArrayList<Qualis>();
+		String tagName = "entry";
+		String filePath = "qualis.xml";
+		List<Element> entries = FactoryXML.getElementoXml(filePath, tagName);
+
+		for (Element es : entries) {
+
+			String regex = XmlUtils.getStringAttribute(es, "regex");
+			String nivel = XmlUtils.getStringAttribute(es, "class");
+			String tipo = XmlUtils.getStringAttribute(es, "type");
+
+			Qualis linha = new Qualis();
+
+			linha.setRegex(regex);
+			linha.setNivel(nivel);
+			if (tipo.equals("Periódico")) {
+
+				linha.setTipo(TipoArtigo.ARTIGO_REVISTA);
+
+			} else {
+
+				linha.setTipo(TipoArtigo.ARTIGO_CONVENCAO);
+
+			}
+
+			qualis.add(linha);
+
+		}
+		System.out.println(qualis.size());
+		return qualis;
+
+	}
 
 }

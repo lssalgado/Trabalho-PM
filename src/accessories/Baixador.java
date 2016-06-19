@@ -83,4 +83,24 @@ public class Baixador {
 		}
 
 	}
+	
+	public void downloadPrograma(){
+		
+		String caminho = "https://s3.amazonaws.com/posgraduacao/programas.xml";
+		URL website;
+		String destino = "programas.xml";
+		try {
+			website = new URL(caminho);
+			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+			FileOutputStream fos = new FileOutputStream(destino);
+			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+			// System.out.println("Arquivo baixado para : " +destino);
+			Descompactador.descompactar(destino);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+	}
 }
