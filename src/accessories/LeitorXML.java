@@ -29,8 +29,9 @@ public class LeitorXML {
 		curriculo.setListas(true);
 		
 		curriculo.setArtigoEvento(getArtigosEvento(filePath, qualis, nome));
+		
 		curriculo.setArtigoPeriodico(getArtigosRevista(filePath, qualis, nome));
-
+		
 		curriculo.setOrientaçoesMestradoAndamento(getOrientacaoMestradoAndamento(filePath));
 		curriculo.setOrientaçoesProjetoFinalAndamento(getOrientacaoTCCAndamento(filePath));
 		curriculo.setOrientaçoesDoutoradoAndamento(getOrientacaoDoutoradoAndamento(filePath));

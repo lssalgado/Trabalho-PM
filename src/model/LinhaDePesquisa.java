@@ -35,6 +35,10 @@ public class LinhaDePesquisa {
 	private int orientaçoesMestradoAndamento = 0;
 	private int orientaçoesProjetoFinalAndamento = 0;
 
+	/**
+	 * Retorna uma String com todos os dados da Linha de Pesquisa a serem
+	 * gravados no arquivo
+	 */
 	public String getConteudo() {
 
 		String conteudo = nome + "\t" + artigosA1Revistas + "\t" + artigosA2Revistas + "\t" + artigosB1Revistas + "\t"
@@ -46,10 +50,13 @@ public class LinhaDePesquisa {
 				+ orientaçoesMestradoConcluidas + "\t" + orientaçoesProjetoFinalConcluidas + "\t"
 				+ orientaçoesDoutoradoAndamento + "\t" + orientaçoesMestradoAndamento + "\t"
 				+ orientaçoesProjetoFinalAndamento;
-		
+
 		return conteudo;
 	}
 
+	/**
+	 * Adiciona um professor a lista de professores
+	 */
 	public void addListProfessores(String nomeProfessor, String codigo) {
 
 		Professor prf = new Professor();
@@ -59,6 +66,9 @@ public class LinhaDePesquisa {
 
 	}
 
+	/**
+	 * Alimenta seu Curriculo com os dados de todos os seus professores
+	 */
 	public String somaCurriculos() {
 
 		for (Professor prf : professores) {

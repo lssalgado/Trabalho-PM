@@ -5,7 +5,7 @@ import java.util.List;
 public class Curriculo {
 
 	private boolean listas = false;
-	
+
 	private List<Artigos> artigoPeriodico;
 	private List<Artigos> artigoEvento;
 
@@ -55,23 +55,26 @@ public class Curriculo {
 	 */
 	private void validaConteudo(int anoInicial, int anoFinal) {
 
-		if (isListas()){
-			
-		setBancasDoutoradoValidas(validaBancas(bancasDoutorado, anoInicial, anoFinal));
-		setBancasMestradoValidas(validaBancas(bancasMestrado, anoInicial, anoFinal));
-		setBancasGraduacaoValidas(validaBancas(bancasGraduacao, anoInicial, anoFinal));
+		if (isListas()) {
 
-		setOrientaçoesDoutoradoConcluidasValidas(
-				validaOrientacoes(orientaçoesDoutoradoConcluidas, anoInicial, anoFinal));
-		setOrientaçoesMestradoConcluidasValidas(validaOrientacoes(orientaçoesMestradoConcluidas, anoInicial, anoFinal));
-		setOrientaçoesProjetoFinalConcluidasValidas(
-				validaOrientacoes(orientaçoesProjetoFinalConcluidas, anoInicial, anoFinal));
+			setBancasDoutoradoValidas(validaBancas(bancasDoutorado, anoInicial, anoFinal));
+			setBancasMestradoValidas(validaBancas(bancasMestrado, anoInicial, anoFinal));
+			setBancasGraduacaoValidas(validaBancas(bancasGraduacao, anoInicial, anoFinal));
 
-		setOrientaçoesDoutoradoAndamentoValidas(validaOrientacoes(orientaçoesDoutoradoAndamento, anoInicial, anoFinal));
-		setOrientaçoesMestradoAndamentoValidas(validaOrientacoes(orientaçoesMestradoAndamento, anoInicial, anoFinal));
-		setOrientaçoesProjetoFinalAndamentoValidas(
-				validaOrientacoes(orientaçoesProjetoFinalAndamento, anoInicial, anoFinal));
-		
+			setOrientaçoesDoutoradoConcluidasValidas(
+					validaOrientacoes(orientaçoesDoutoradoConcluidas, anoInicial, anoFinal));
+			setOrientaçoesMestradoConcluidasValidas(
+					validaOrientacoes(orientaçoesMestradoConcluidas, anoInicial, anoFinal));
+			setOrientaçoesProjetoFinalConcluidasValidas(
+					validaOrientacoes(orientaçoesProjetoFinalConcluidas, anoInicial, anoFinal));
+
+			setOrientaçoesDoutoradoAndamentoValidas(
+					validaOrientacoes(orientaçoesDoutoradoAndamento, anoInicial, anoFinal));
+			setOrientaçoesMestradoAndamentoValidas(
+					validaOrientacoes(orientaçoesMestradoAndamento, anoInicial, anoFinal));
+			setOrientaçoesProjetoFinalAndamentoValidas(
+					validaOrientacoes(orientaçoesProjetoFinalAndamento, anoInicial, anoFinal));
+
 		}
 
 	}
@@ -82,7 +85,6 @@ public class Curriculo {
 	public String getConteudo(int anoInicial, int anoFinal) {
 
 		validaConteudo(anoInicial, anoFinal);
-
 		String conteudo = artigoPeriodicoA1 + "\t" + artigoPeriodicoA2 + "\t" + artigoPeriodicoB1 + "\t"
 				+ artigoPeriodicoB2 + "\t" + artigoPeriodicoB3 + "\t" + artigoPeriodicoB4 + "\t" + artigoPeriodicoB5
 				+ "\t" + artigoPeriodicoC + "\t" + artigoPeriodicoNC + "\t" + artigoConferenciaA1 + "\t"
@@ -93,7 +95,7 @@ public class Curriculo {
 				+ "\t" + orientaçoesMestradoConcluidasValidas + "\t" + orientaçoesProjetoFinalConcluidasValidas + "\t"
 				+ orientaçoesDoutoradoAndamentoValidas + "\t" + orientaçoesMestradoAndamentoValidas + "\t"
 				+ orientaçoesProjetoFinalAndamentoValidas;
-		
+
 		return conteudo;
 
 	}
@@ -108,10 +110,10 @@ public class Curriculo {
 		for (Banca banca : list) {
 
 			if (banca.getAno() >= anoInicial && banca.getAno() <= anoFinal) {
-				
+
 				quantidade++;
 
-			} else {System.out.println("Banca =" + banca.getAno());}
+			}
 
 		}
 
@@ -131,7 +133,7 @@ public class Curriculo {
 
 				quantidade++;
 
-			} else {System.out.println("Orientacao = " + orientacao.getAno());}
+			}
 
 		}
 
@@ -143,146 +145,149 @@ public class Curriculo {
 	 */
 	public void filtroDeArtigos(int anoInicial, int anoFinal) {
 
-		for (Artigos artg : artigoEvento) {
+		if (listas) {
 
-			if (artg.getSituacao() == Situacao.CONCLUIDO) {
-				
-				if (artg.getAno() >= anoInicial && anoFinal >= artg.getAno() && artg.getNivelArtigo() != null) {
+			for (Artigos artg : artigoEvento) {
 
-					switch (artg.getNivelArtigo()) {
-					case A1:
+				if (artg.getSituacao() == Situacao.CONCLUIDO) {
 
-						artigoConferenciaA1++;
+					if (artg.getAno() >= anoInicial && anoFinal >= artg.getAno() && artg.getNivelArtigo() != null) {
 
-						break;
+						switch (artg.getNivelArtigo()) {
+						case A1:
 
-					case A2:
+							artigoConferenciaA1++;
 
-						artigoConferenciaA2++;
+							break;
 
-						break;
+						case A2:
 
-					case B1:
+							artigoConferenciaA2++;
 
-						artigoConferenciaB1++;
+							break;
 
-						break;
+						case B1:
 
-					case B2:
+							artigoConferenciaB1++;
 
-						artigoConferenciaB2++;
+							break;
 
-						break;
+						case B2:
 
-					case B3:
+							artigoConferenciaB2++;
 
-						artigoConferenciaB3++;
+							break;
 
-						break;
+						case B3:
 
-					case B4:
+							artigoConferenciaB3++;
 
-						artigoConferenciaB4++;
+							break;
 
-						break;
+						case B4:
 
-					case B5:
+							artigoConferenciaB4++;
 
-						artigoConferenciaB5++;
+							break;
 
-						break;
+						case B5:
 
-					case C:
+							artigoConferenciaB5++;
 
-						artigoConferenciaC++;
+							break;
 
-						break;
+						case C:
 
-					case NC:
+							artigoConferenciaC++;
 
-						artigoConferenciaNC++;
+							break;
 
-						break;
+						case NC:
 
-					default:
-						break;
+							artigoConferenciaNC++;
+
+							break;
+
+						default:
+							break;
+						}
+
 					}
 
-				}else {System.out.println("Artigo = "+artg.getAno());}
+				}
 
 			}
 
-		}
+			for (Artigos artg : artigoPeriodico) {
 
-		for (Artigos artg : artigoPeriodico) {
+				if (artg.getSituacao() == Situacao.CONCLUIDO) {
 
-			if (artg.getSituacao() == Situacao.CONCLUIDO) {
-				
-				if (artg.getAno() >= anoInicial && anoFinal >= artg.getAno() && artg.getNivelArtigo() != null) {
+					if (artg.getAno() >= anoInicial && anoFinal >= artg.getAno() && artg.getNivelArtigo() != null) {
 
-					switch (artg.getNivelArtigo()) {
-					case A1:
+						switch (artg.getNivelArtigo()) {
+						case A1:
 
-						artigoPeriodicoA1++;
+							artigoPeriodicoA1++;
 
-						break;
+							break;
 
-					case A2:
+						case A2:
 
-						artigoPeriodicoA2++;
+							artigoPeriodicoA2++;
 
-						break;
+							break;
 
-					case B1:
+						case B1:
 
-						artigoPeriodicoB1++;
+							artigoPeriodicoB1++;
 
-						break;
+							break;
 
-					case B2:
+						case B2:
 
-						artigoPeriodicoB2++;
+							artigoPeriodicoB2++;
 
-						break;
+							break;
 
-					case B3:
+						case B3:
 
-						artigoPeriodicoB3++;
+							artigoPeriodicoB3++;
 
-						break;
+							break;
 
-					case B4:
+						case B4:
 
-						artigoPeriodicoB4++;
+							artigoPeriodicoB4++;
 
-						break;
+							break;
 
-					case B5:
+						case B5:
 
-						artigoPeriodicoB5++;
+							artigoPeriodicoB5++;
 
-						break;
+							break;
 
-					case C:
+						case C:
 
-						artigoPeriodicoC++;
+							artigoPeriodicoC++;
 
-						break;
+							break;
 
-					case NC:
+						case NC:
 
-						artigoPeriodicoNC++;
+							artigoPeriodicoNC++;
 
-						break;
+							break;
 
-					default:
-						break;
+						default:
+							break;
+						}
+
 					}
 
-				}else {System.out.println(artg.getAno());}
+				}
 			}
 		}
-
 	}
 
 	public List<Artigos> getArtigoPeriodico() {

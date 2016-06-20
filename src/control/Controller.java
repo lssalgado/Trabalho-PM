@@ -42,24 +42,27 @@ public class Controller {
 		leitor = new LeitorXML();
 		baixador = new Baixador();
 		escritor = new Escritor();
-		
+
 		prog.setNome(programa);
 		baixador.downloadProject(programa);
 		baixador.downloadQualis();
 
 		qualis = leitor.getQualis();
 		linhaDePesquisa = leitor.getLinhas("contents.xml");
-		
-		
+
 		iniciaTodosProfessores();
 		contador();
-		
+
 		prog.setLinhas(linhaDePesquisa);
-		
+
 		escritor.escreveArquivo(prog, anoInicial, anoFinal);
 
 	}
 
+	/**
+	 * Realiza o download dos arquivos de cada professor e alimenta os mesmos
+	 * com seus curriculos
+	 */
 	private void iniciaTodosProfessores() {
 
 		for (LinhaDePesquisa ldp : linhaDePesquisa) {
@@ -77,6 +80,9 @@ public class Controller {
 
 	}
 
+	/**
+	 * Filtra os Artigos de todos os professores de todas as linhas de pesquisa
+	 */
 	private void contador() {
 
 		for (LinhaDePesquisa ldp : linhaDePesquisa) {
@@ -87,7 +93,7 @@ public class Controller {
 
 				Curriculo curriculo = prf.getCurriculo();
 				curriculo.filtroDeArtigos(anoInicial, anoFinal);
-				
+
 			}
 
 		}

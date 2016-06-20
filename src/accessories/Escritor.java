@@ -15,6 +15,9 @@ import model.Programa;
 
 public class Escritor {
 
+	/**
+	 * Escreve o arquivo final de acordo com os dados do programa
+	 */
 	public void escreveArquivo(Programa prog, int anoInicial, int anoFinal) {
 
 		String programa = prog.getNome();

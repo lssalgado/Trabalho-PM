@@ -9,6 +9,9 @@ public class Qualis {
 	private TipoArtigo tipo;
 	private NivelArtigo nivel;
 	
+	/**
+	 * Checa se uma String contém a regex esperada
+	 */
 	public boolean qualificador(String titulo){
 		
 		if (titulo.matches(".*" + regex.toLowerCase() + ".*")){
