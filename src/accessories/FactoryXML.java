@@ -22,12 +22,6 @@ public class FactoryXML {
 
 	/**
 	 * Retorna uma lista de Element de acordo com uma tag passada
-	 * 
-	 * @param filePath
-	 *            Caminho + nome do aquivo a ser carregado
-	 * @param tagName
-	 *            Nome da tag a ser retornada
-	 * @return
 	 */
 	public static List<Element> getElementoXml(String filePath, String tagName) {
 		List<Element> elementos = new ArrayList<Element>();
@@ -50,10 +44,6 @@ public class FactoryXML {
 
 	/**
 	 * Retorna os dados do XML em forma de Document
-	 * 
-	 * @param filePath
-	 *            Caminho + nome do aquivo a ser carregado
-	 * @return
 	 */
 	public static Document startFactory(String filePath) {
 

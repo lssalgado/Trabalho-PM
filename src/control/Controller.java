@@ -4,7 +4,9 @@ import java.util.List;
 
 import accessories.Baixador;
 import accessories.Escritor;
+import accessories.FactoryXML;
 import accessories.LeitorXML;
+import accessories.XmlUtils;
 import model.Curriculo;
 import model.LinhaDePesquisa;
 import model.Professor;
@@ -29,6 +31,9 @@ public class Controller {
 	Baixador baixador;
 	Escritor escritor;
 
+	/**
+	 * Construtor de controle que recebe as strings passadas por parâmetro
+	 */
 	public Controller(String programa, String anoInicial, String anoFinal) {
 
 		this.programa = programa;
@@ -37,25 +42,38 @@ public class Controller {
 
 	}
 
+	/**
+	 * Função responsável por controlar o programa
+	 */
 	public void start() {
 
 		leitor = new LeitorXML();
 		baixador = new Baixador();
 		escritor = new Escritor();
 
-		prog.setNome(programa);
-		baixador.downloadProject(programa);
-		baixador.downloadQualis();
+		baixador.downloadPrograma();
 
-		qualis = leitor.getQualis();
-		linhaDePesquisa = leitor.getLinhas("contents.xml");
+		/* Valida se o programa existe */
+		if (XmlUtils
+				.getStringAttribute(
+						(FactoryXML.getElementoXml("programas.xml", "programa"))
+								.get(0), "nome").equals(programa)) {
 
-		iniciaTodosProfessores();
-		contador();
+			baixador.downloadContents(programa);
+			baixador.downloadQualis();
 
-		prog.setLinhas(linhaDePesquisa);
+			prog.setNome(programa);
+			qualis = leitor.getQualis();
+			linhaDePesquisa = leitor.getLinhas("contents.xml");
 
-		escritor.escreveArquivo(prog, anoInicial, anoFinal);
+			iniciaTodosProfessores();
+			contador();
+
+			prog.setLinhas(linhaDePesquisa);
+
+			escritor.escreveArquivo(prog, anoInicial, anoFinal);
+			
+		}
 
 	}
 
@@ -72,7 +90,9 @@ public class Controller {
 			for (Professor p : prf) {
 
 				baixador.downloadProfessor(programa, p.getCodigo());
-				p.setCurriculo(leitor.alimentaProfessor("curriculos/" + p.getCodigo() + ".xml", qualis, p.getNome()));
+				p.setCurriculo(leitor.alimentaProfessor(
+						"curriculos/" + p.getCodigo() + ".xml", qualis,
+						p.getNome()));
 
 			}
 

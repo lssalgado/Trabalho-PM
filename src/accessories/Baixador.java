@@ -14,10 +14,11 @@ import java.nio.channels.ReadableByteChannel;
 public class Baixador {
 
 	/**
-	 * Realiza o download do arquivo base do projeto
+	 * Realiza o download do arquivo Contents
 	 */
-	public void downloadProject(String proj) {
-		String caminho = "https://s3.amazonaws.com/posgraduacao/" + proj + "/contents.xml";
+	public void downloadContents(String proj) {
+		String caminho = "https://s3.amazonaws.com/posgraduacao/" + proj
+				+ "/contents.xml";
 		String destino = "contents.xml";
 
 		File file = new File("contents.xml");
@@ -25,12 +26,14 @@ public class Baixador {
 		if (!file.exists()) {
 			try {
 				URL website = new URL(caminho);
-				ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+				ReadableByteChannel rbc = Channels.newChannel(website
+						.openStream());
 				FileOutputStream fos = new FileOutputStream(destino);
 				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 
 			} catch (IOException e) {
-				System.err.println("Download do Contents não foi efetuado com sucesso!");
+				System.err
+						.println("Download do Contents não foi efetuado com sucesso!");
 				e.printStackTrace();
 			}
 
@@ -41,7 +44,8 @@ public class Baixador {
 	 * Realiza o download do .zip de um professor
 	 */
 	public void downloadProfessor(String proj, String codigo) {
-		String caminho = "https://s3.amazonaws.com/posgraduacao/" + proj + "/" + codigo + ".zip";
+		String caminho = "https://s3.amazonaws.com/posgraduacao/" + proj + "/"
+				+ codigo + ".zip";
 		URL website;
 		String destino = codigo + ".zip";
 		Descompactador descompactador = new Descompactador();
@@ -51,12 +55,14 @@ public class Baixador {
 
 			try {
 				website = new URL(caminho);
-				ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+				ReadableByteChannel rbc = Channels.newChannel(website
+						.openStream());
 				FileOutputStream fos = new FileOutputStream(destino);
 				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 
 			} catch (IOException e) {
-				System.err.println("Download do Professor " + codigo + " não foi efetuado com sucesso!");
+				System.err.println("Download do Professor " + codigo
+						+ " não foi efetuado com sucesso!");
 				e.printStackTrace();
 			}
 		}
@@ -77,12 +83,14 @@ public class Baixador {
 		if (!file.exists()) {
 			try {
 				website = new URL(caminho);
-				ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+				ReadableByteChannel rbc = Channels.newChannel(website
+						.openStream());
 				FileOutputStream fos = new FileOutputStream(destino);
 				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 				// System.out.println("Arquivo baixado para : " +destino);
 			} catch (IOException e) {
-				System.err.println("Download do Qualis não foi efetuado com sucesso!");
+				System.err
+						.println("Download do Qualis não foi efetuado com sucesso!");
 				e.printStackTrace();
 			}
 		}
@@ -90,7 +98,7 @@ public class Baixador {
 	}
 
 	/**
-	 * Realiza o download do arquivo com os programas
+	 * Realiza o download do arquivo programas
 	 */
 	public void downloadPrograma() {
 
@@ -103,12 +111,14 @@ public class Baixador {
 		if (!file.exists()) {
 			try {
 				website = new URL(caminho);
-				ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+				ReadableByteChannel rbc = Channels.newChannel(website
+						.openStream());
 				FileOutputStream fos = new FileOutputStream(destino);
 				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 				// System.out.println("Arquivo baixado para : " +destino);
 			} catch (IOException e) {
-				System.err.println("Download do programa não foi efetuado com sucesso!");
+				System.err
+						.println("Download do programa não foi efetuado com sucesso!");
 				e.printStackTrace();
 			}
 		}

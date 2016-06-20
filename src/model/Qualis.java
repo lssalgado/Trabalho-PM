@@ -3,24 +3,30 @@ package model;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Classe responsávél pelo conteúdo do arquivo Qualis e verificação das
+ * expressões regulares
+ * 
+ * @author lsalgado
+ */
 public class Qualis {
 
 	private String regex;
 	private TipoArtigo tipo;
 	private NivelArtigo nivel;
-	
+
 	/**
 	 * Checa se uma String contém a regex esperada
 	 */
-	public boolean qualificador(String titulo){
-		
-		if (titulo.matches(".*" + regex.toLowerCase() + ".*")){
+	public boolean qualificador(String titulo) {
+
+		if (titulo.matches(".*" + regex.toLowerCase() + ".*")) {
 
 			return true;
-			
+
 		}
 		return false;
-		
+
 	}
 
 	public String getRegex() {

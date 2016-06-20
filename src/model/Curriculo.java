@@ -2,6 +2,11 @@ package model;
 
 import java.util.List;
 
+/**
+ * Classe responsável por guardar todas as informações de um professor 
+ * 
+ * @author lsalgado
+ */
 public class Curriculo {
 
 	private boolean listas = false;

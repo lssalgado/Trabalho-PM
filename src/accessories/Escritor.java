@@ -13,6 +13,11 @@ import model.LinhaDePesquisa;
 import model.Professor;
 import model.Programa;
 
+/**
+ * Classe responsável pro realizar a escrita do arquivo final
+ * 
+ * @author lsalgado
+ */
 public class Escritor {
 
 	/**

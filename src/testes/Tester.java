@@ -7,49 +7,80 @@ import org.junit.Test;
 import accessories.LeitorXML;
 import model.Curriculo;
 
+/**
+ * Essa classe é responsável por realizar os testes do programa. Todos os
+ * dadosusados como "expected" foram extraidos manualmente do xml e/ou do
+ * currículo online
+ * 
+ * @author lsalgado
+ */
 public class Tester {
 
 	LeitorXML leitor = new LeitorXML();
-	
+
 	@Test
 	public void testaLeitorGetLinhas() {
-		
+
 		assertEquals(3, leitor.getLinhas("contents.xml").size());
-		assertEquals("Representação de Conhecimento e Raciocínio", leitor.getLinhas("contents.xml").get(0).getNome());
-		assertEquals("Distribuição e Redes", leitor.getLinhas("contents.xml").get(1).getNome());
-		assertEquals("Sistemas de Apoio a Negócios", leitor.getLinhas("contents.xml").get(2).getNome());
-		
+		assertEquals("Representação de Conhecimento e Raciocínio", leitor
+				.getLinhas("contents.xml").get(0).getNome());
+		assertEquals("Distribuição e Redes", leitor.getLinhas("contents.xml")
+				.get(1).getNome());
+		assertEquals("Sistemas de Apoio a Negócios",
+				leitor.getLinhas("contents.xml").get(2).getNome());
+
 	}
-	
+
 	@Test
-	public void testaLeitorGetQualis(){
-		
+	public void testaLeitorGetQualis() {
+
 		assertEquals(3510, leitor.getQualis().size());
-		
+
 	}
-	
+
 	@Test
-	public void testaQualisQualificador(){
-		
-		assertEquals(true, leitor.getQualis().get(14).qualificador("Workshop de Engenharia de Software baseada em Buscas".toLowerCase()));
-		assertEquals(true, leitor.getQualis().get(14).qualificador("Workshop em Engenharia de Software baseada em Buscas".toLowerCase()));
-		assertEquals(false, leitor.getQualis().get(14).qualificador("Workshop Engenharia de Software baseada em Buscas".toLowerCase()));
-		
+	public void testaQualisQualificador() {
+
+		assertEquals(
+				true,
+				leitor.getQualis()
+						.get(14)
+						.qualificador(
+								"Workshop de Engenharia de Software baseada em Buscas"
+										.toLowerCase()));
+		assertEquals(
+				true,
+				leitor.getQualis()
+						.get(14)
+						.qualificador(
+								"Workshop em Engenharia de Software baseada em Buscas"
+										.toLowerCase()));
+		assertEquals(
+				false,
+				leitor.getQualis()
+						.get(14)
+						.qualificador(
+								"Workshop Engenharia de Software baseada em Buscas"
+										.toLowerCase()));
+
 	}
-	
+
 	@Test
-	public void testaLeitorGetProfessor(){
-		
-		assertEquals("1841338064901299", leitor.getLinhas("contents.xml").get(0).getProfessores().get(0).getCodigo());
-		assertEquals("Adriana Cesário de Faria Alvim", leitor.getLinhas("contents.xml").get(0).getProfessores().get(0).getNome());
-		
+	public void testaLeitorGetProfessor() {
+
+		assertEquals("1841338064901299", leitor.getLinhas("contents.xml")
+				.get(0).getProfessores().get(0).getCodigo());
+		assertEquals("Adriana Cesário de Faria Alvim",
+				leitor.getLinhas("contents.xml").get(0).getProfessores().get(0)
+						.getNome());
+
 	}
-	
+
 	@Test
-	public void testaLeitorAlimentaProfessor(){
-		
+	public void testaLeitorAlimentaProfessor() {
+
 		Curriculo curriculo = new Curriculo();
-		
+
 		curriculo.setArtigoPeriodicoA1(0);
 		curriculo.setArtigoPeriodicoA2(5);
 		curriculo.setArtigoPeriodicoB1(1);
@@ -59,7 +90,7 @@ public class Tester {
 		curriculo.setArtigoPeriodicoB5(2);
 		curriculo.setArtigoPeriodicoC(1);
 		curriculo.setArtigoPeriodicoNC(0);
-		
+
 		curriculo.setArtigoConferenciaA1(2);
 		curriculo.setArtigoConferenciaA2(0);
 		curriculo.setArtigoConferenciaB1(7);
@@ -69,24 +100,47 @@ public class Tester {
 		curriculo.setArtigoConferenciaB5(2);
 		curriculo.setArtigoConferenciaC(0);
 		curriculo.setArtigoConferenciaNC(0);
-		
+
 		curriculo.setBancasDoutoradoValidas(12);
 		curriculo.setBancasMestradoValidas(65);
 		curriculo.setBancasGraduacaoValidas(22);
-		
+
 		curriculo.setOrientaçoesDoutoradoConcluidasValidas(2);
 		curriculo.setOrientaçoesMestradoConcluidasValidas(24);
 		curriculo.setOrientaçoesProjetoFinalConcluidasValidas(7);
-		
+
 		curriculo.setOrientaçoesDoutoradoAndamentoValidas(4);
 		curriculo.setOrientaçoesMestradoAndamentoValidas(12);
 		curriculo.setOrientaçoesProjetoFinalAndamentoValidas(1);
-		
-		Curriculo crcl = leitor.alimentaProfessor("curriculos/2562652838103607.xml", leitor.getQualis(), "Sean Wolfgand Matsui Siqueira");
-		crcl.filtroDeArtigos(0, 2020);			
-		
+
+		Curriculo crcl = leitor.alimentaProfessor(
+				"curriculos/2562652838103607.xml", leitor.getQualis(),
+				"Sean Wolfgand Matsui Siqueira");
+		crcl.filtroDeArtigos(0, 2020);
+
 		assertEquals(curriculo.getConteudo(0, 2020), crcl.getConteudo(0, 2020));
-		
+
+	}
+
+	/**
+	 * Este caso de teste difere do "testaLeitorAlimentaProfessor" pois conta todos
+	 * os artigos de um professor, mesmo os que não foram listados utilizando o
+	 * Qualis
+	 */
+	@Test
+	public void testaLeitorGetArtigos() {
+
+		assertEquals(
+				97,
+				leitor.alimentaProfessor("curriculos/2562652838103607.xml",
+						leitor.getQualis(), "Sean Wolfgand Matsui Siqueira")
+						.getArtigoEvento().size());
+		assertEquals(
+				22,
+				leitor.alimentaProfessor("curriculos/2562652838103607.xml",
+						leitor.getQualis(), "Sean Wolfgand Matsui Siqueira")
+						.getArtigoPeriodico().size());
+
 	}
 
 }
