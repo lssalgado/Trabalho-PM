@@ -4,6 +4,8 @@ import java.util.List;
 
 public class Curriculo {
 
+	private boolean listas = false;
+	
 	private List<Artigos> artigoPeriodico;
 	private List<Artigos> artigoEvento;
 
@@ -49,10 +51,12 @@ public class Curriculo {
 	private int orientaçoesProjetoFinalAndamentoValidas;
 
 	/**
-	 * Valida e conta conteúdo
+	 * Valida e conta conteúdo do currículo
 	 */
 	private void validaConteudo(int anoInicial, int anoFinal) {
 
+		if (isListas()){
+			
 		setBancasDoutoradoValidas(validaBancas(bancasDoutorado, anoInicial, anoFinal));
 		setBancasMestradoValidas(validaBancas(bancasMestrado, anoInicial, anoFinal));
 		setBancasGraduacaoValidas(validaBancas(bancasGraduacao, anoInicial, anoFinal));
@@ -67,6 +71,8 @@ public class Curriculo {
 		setOrientaçoesMestradoAndamentoValidas(validaOrientacoes(orientaçoesMestradoAndamento, anoInicial, anoFinal));
 		setOrientaçoesProjetoFinalAndamentoValidas(
 				validaOrientacoes(orientaçoesProjetoFinalAndamento, anoInicial, anoFinal));
+		
+		}
 
 	}
 
@@ -86,8 +92,8 @@ public class Curriculo {
 				+ bancasMestradoValidas + "\t" + bancasGraduacaoValidas + "\t" + orientaçoesDoutoradoConcluidasValidas
 				+ "\t" + orientaçoesMestradoConcluidasValidas + "\t" + orientaçoesProjetoFinalConcluidasValidas + "\t"
 				+ orientaçoesDoutoradoAndamentoValidas + "\t" + orientaçoesMestradoAndamentoValidas + "\t"
-				+ orientaçoesDoutoradoAndamentoValidas;
-
+				+ orientaçoesProjetoFinalAndamentoValidas;
+		
 		return conteudo;
 
 	}
@@ -102,10 +108,10 @@ public class Curriculo {
 		for (Banca banca : list) {
 
 			if (banca.getAno() >= anoInicial && banca.getAno() <= anoFinal) {
-
+				
 				quantidade++;
 
-			}
+			} else {System.out.println("Banca =" + banca.getAno());}
 
 		}
 
@@ -125,7 +131,7 @@ public class Curriculo {
 
 				quantidade++;
 
-			}
+			} else {System.out.println("Orientacao = " + orientacao.getAno());}
 
 		}
 
@@ -141,7 +147,7 @@ public class Curriculo {
 
 			if (artg.getSituacao() == Situacao.CONCLUIDO) {
 				
-				if (artg.getAno() >= anoInicial && anoFinal <= artg.getAno() && artg.getNivelArtigo() != null) {
+				if (artg.getAno() >= anoInicial && anoFinal >= artg.getAno() && artg.getNivelArtigo() != null) {
 
 					switch (artg.getNivelArtigo()) {
 					case A1:
@@ -202,7 +208,7 @@ public class Curriculo {
 						break;
 					}
 
-				}
+				}else {System.out.println("Artigo = "+artg.getAno());}
 
 			}
 
@@ -212,7 +218,7 @@ public class Curriculo {
 
 			if (artg.getSituacao() == Situacao.CONCLUIDO) {
 				
-				if (artg.getAno() >= anoInicial && anoFinal <= artg.getAno() && artg.getNivelArtigo() != null) {
+				if (artg.getAno() >= anoInicial && anoFinal >= artg.getAno() && artg.getNivelArtigo() != null) {
 
 					switch (artg.getNivelArtigo()) {
 					case A1:
@@ -273,7 +279,7 @@ public class Curriculo {
 						break;
 					}
 
-				}
+				}else {System.out.println(artg.getAno());}
 			}
 		}
 
@@ -581,6 +587,14 @@ public class Curriculo {
 
 	public void setOrientaçoesProjetoFinalAndamentoValidas(int orientaçoesProjetoFinalAndamentoValidas) {
 		this.orientaçoesProjetoFinalAndamentoValidas = orientaçoesProjetoFinalAndamentoValidas;
+	}
+
+	public boolean isListas() {
+		return listas;
+	}
+
+	public void setListas(boolean listas) {
+		this.listas = listas;
 	}
 
 }

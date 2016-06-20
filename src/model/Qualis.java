@@ -1,5 +1,8 @@
 package model;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Qualis {
 
 	private String regex;
@@ -8,13 +11,13 @@ public class Qualis {
 	
 	public boolean qualificador(String titulo){
 		
-		
 		if (titulo.matches(".*" + regex.toLowerCase() + ".*")){
 
 			return true;
 			
 		}
 		return false;
+		
 	}
 
 	public String getRegex() {

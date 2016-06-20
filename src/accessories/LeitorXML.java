@@ -26,6 +26,8 @@ public class LeitorXML {
 
 		Curriculo curriculo = new Curriculo();
 
+		curriculo.setListas(true);
+		
 		curriculo.setArtigoEvento(getArtigosEvento(filePath, qualis, nome));
 		curriculo.setArtigoPeriodico(getArtigosRevista(filePath, qualis, nome));
 
@@ -107,7 +109,7 @@ public class LeitorXML {
 			
 			if (nivel.equals(NivelArtigo.Nao_Listado)){
 			
-				System.out.println(nome + "\t Revista " + titulo + "\t Não encontrado");
+				System.out.println(nome + "\t Revista " + revista + "\t Não encontrado");
 				
 			}
 			
@@ -115,7 +117,6 @@ public class LeitorXML {
 			listaArtigos.add(artg);
 
 		}
-//		System.out.println("Quantidade Artigos revistas: " + listaArtigos.size());
 		return listaArtigos;
 
 	}
@@ -184,16 +185,17 @@ public class LeitorXML {
 			
 			if (nivel.equals(NivelArtigo.Nao_Listado)){
 				
-				System.out.println(nome + "\t Evento" + titulo + "\t Não encontrado");
+				System.out.println(nome + "\t Evento " + evento + "\t Não encontrado");
 				
 			}
 
 			artg.setNivelArtigo(nivel);
+			if (artg.getSituacao()== Situacao.CONCLUIDO){
 			listaArtigos.add(artg);
+			}
 
 		}
 		
-//		System.out.println("Quantidade Artigos eventos: " + listaArtigos.size());
 		return listaArtigos;
 
 	}
@@ -255,7 +257,6 @@ public class LeitorXML {
 				ano = XmlUtils.getIntAttribute(es, "ANO");
 
 				Orientacao orientacao = new Orientacao();
-
 				orientacao.setAno(ano);
 				orientacao.setNatureza(natureza);
 				orientacao.setSituacao(situacao);

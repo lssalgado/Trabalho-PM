@@ -11,32 +11,43 @@ import java.util.List;
 
 import model.LinhaDePesquisa;
 import model.Professor;
+import model.Programa;
 
 public class Escritor {
 
-	public void escreveArquivo(List<LinhaDePesquisa> linhaDePesquisa,
-			String programa, int anoInicial, int anoFinal) {
+	public void escreveArquivo(Programa prog, int anoInicial, int anoFinal) {
+
+		String programa = prog.getNome();
 
 		try {
-			Writer escritor = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(programa + ".txt"), "utf-8"));
+			Writer escritor = new BufferedWriter(
+					new OutputStreamWriter(new FileOutputStream(programa + ".txt"), "utf-8"));
 			String breakLine = System.getProperty("line.separator");
-			for (LinhaDePesquisa ldp : linhaDePesquisa) {
+
+			escritor.write(
+					"Nome\tA1\tA2\tB1\tB2\tB3\tB4\tB5\tC\tNC\tA1\tA2\tB1\tB2\tB3\tB4\tB5\tC\tNC\tBancaD\tBancaM\tBancaG\tOCD\tOCM\tOCG\tOAD\tOAM\tOAG"
+							+ breakLine);
+
+			List<LinhaDePesquisa> linhasDePesquisa = prog.getLinhas();
+
+			for (LinhaDePesquisa ldp : linhasDePesquisa) {
 
 				List<Professor> professores = ldp.getProfessores();
 
 				for (Professor prf : professores) {
-					
-					escritor.write(prf.getNome() + "\t" + prf.getCurriculo().getConteudo(anoInicial, anoFinal) + breakLine);
+
+					escritor.write(
+							prf.getNome() + "\t" + prf.getCurriculo().getConteudo(anoInicial, anoFinal) + breakLine);
 
 				}
 
 				ldp.somaCurriculos();
-				escritor.write("Total da Linha de Pesquisa " + ldp.getConteudo() + "\t" + breakLine);
-				
+				escritor.write("Total da Linha de Pesquisa" + ldp.getConteudo() + "\t" + breakLine);
 
 			}
-			escritor.write("Total do Programa " + programa);
+			prog.setCurriculo();
+			escritor.write(
+					"Total do Programa " + programa + "\t" + prog.getCurriculo().getConteudo(anoInicial, anoFinal));
 			escritor.close();
 		} catch (UnsupportedEncodingException e) {
 			System.err.println("The character encoding is not supported.");
