@@ -6,7 +6,13 @@ import java.util.List;
 import org.w3c.dom.Element;
 
 import model.Artigos;
+import model.Banca;
+import model.Curriculo;
 import model.LinhaDePesquisa;
+import model.Natureza;
+import model.NivelArtigo;
+import model.Orientacao;
+import model.Professor;
 import model.Qualis;
 import model.Situacao;
 import model.TipoArtigo;
@@ -14,9 +20,35 @@ import model.TipoArtigo;
 public class LeitorXML {
 
 	/**
+	 * Retorna o curriculo de dado professor após alimentar o mesmo
+	 */
+	public Curriculo alimentaProfessor(String filePath, List<Qualis> qualis, String nome) {
+
+		Curriculo curriculo = new Curriculo();
+
+		curriculo.setArtigoEvento(getArtigosEvento(filePath, qualis, nome));
+		curriculo.setArtigoPeriodico(getArtigosRevista(filePath, qualis, nome));
+
+		curriculo.setOrientaçoesMestradoAndamento(getOrientacaoMestradoAndamento(filePath));
+		curriculo.setOrientaçoesProjetoFinalAndamento(getOrientacaoTCCAndamento(filePath));
+		curriculo.setOrientaçoesDoutoradoAndamento(getOrientacaoDoutoradoAndamento(filePath));
+
+		curriculo.setOrientaçoesMestradoConcluidas(getOrientacaoMestradoConcluida(filePath));
+		curriculo.setOrientaçoesProjetoFinalConcluidas(getOrientacaoTCCConcluida(filePath));
+		curriculo.setOrientaçoesDoutoradoConcluidas(getOrientacaoDoutoradoConcluida(filePath));
+
+		curriculo.setBancasMestrado(getBancasMestrado(filePath));
+		curriculo.setBancasGraduacao(getBancasGraduacao(filePath));
+		curriculo.setBancasDoutorado(getBancasDoutorado(filePath));
+
+		return curriculo;
+
+	}
+
+	/**
 	 * Retorna uma lista de artigos de revista.
 	 */
-	public List<Artigos> getArtigosRevista(String filePath, int anoInicial, int anoFinal) {
+	private List<Artigos> getArtigosRevista(String filePath, List<Qualis> qualis, String nome) {
 
 		List<Artigos> listaArtigos = new ArrayList<Artigos>();
 
@@ -28,6 +60,7 @@ public class LeitorXML {
 			String situacao = "";
 			String titulo = "";
 			int ano = 0;
+			NivelArtigo nivel = NivelArtigo.Nao_Listado;
 
 			List<Element> l = XmlUtils.getElements(e, "DETALHAMENTO-DO-ARTIGO");
 			for (Element es : l) {
@@ -42,36 +75,55 @@ public class LeitorXML {
 				situacao = XmlUtils.getStringAttribute(ls, "NATUREZA");
 				ano = XmlUtils.getIntAttribute(ls, "ANO-DO-ARTIGO");
 				titulo = XmlUtils.getStringAttribute(ls, "TITULO-DO-ARTIGO");
-				
-				if (situacao.equals("Completo")){
-					
+
+				if (situacao.equals("COMPLETO")) {
+
 					artg.setSituacao(Situacao.CONCLUIDO);
-					
+
 				} else {
-					
+
 					artg.setSituacao(Situacao.ANDAMENTO);
-					
+
 				}
-
 			}
-
 			artg.setAno(ano);
 			artg.setTitulo(titulo);
 			artg.setVeiculo(revista);
 			artg.setTipoArtigo(TipoArtigo.ARTIGO_REVISTA);
+
+			for (Qualis qls : qualis) {
+
+				if (qls.getTipo() == TipoArtigo.ARTIGO_REVISTA && situacao.equals("COMPLETO")) {
+
+					if (qls.qualificador(revista.toLowerCase())) {
+						
+						nivel = qls.getNivel();
+						break;
+					
+					}
+				}
+
+			}
 			
+			if (nivel.equals(NivelArtigo.Nao_Listado)){
+			
+				System.out.println(nome + "\t Revista " + titulo + "\t Não encontrado");
+				
+			}
+			
+			artg.setNivelArtigo(nivel);
 			listaArtigos.add(artg);
 
 		}
-		
+//		System.out.println("Quantidade Artigos revistas: " + listaArtigos.size());
 		return listaArtigos;
 
 	}
-	
+
 	/**
-	 * Retorna uma lista de Artigos de Eventos 
+	 * Retorna uma lista de Artigos de Eventos
 	 */
-	public List<Artigos> getArtigosEvento(String filePath, int anoInicial, int anoFinal) {
+	private List<Artigos> getArtigosEvento(String filePath, List<Qualis> qualis, String nome) {
 
 		List<Artigos> listaArtigos = new ArrayList<Artigos>();
 
@@ -79,15 +131,16 @@ public class LeitorXML {
 		for (Element e : artigos) {
 
 			Artigos artg = new Artigos();
-			String revista = "";
+			String evento = "";
 			String situacao = "";
 			String titulo = "";
 			int ano = 0;
+			NivelArtigo nivel = NivelArtigo.Nao_Listado;
 
 			List<Element> l = XmlUtils.getElements(e, "DETALHAMENTO-DO-TRABALHO");
 			for (Element es : l) {
 
-				revista = XmlUtils.getStringAttribute(es, "NOME-DO-EVENTO");
+				evento = XmlUtils.getStringAttribute(es, "NOME-DO-EVENTO");
 
 			}
 
@@ -97,227 +150,387 @@ public class LeitorXML {
 				situacao = XmlUtils.getStringAttribute(ls, "NATUREZA");
 				ano = XmlUtils.getIntAttribute(ls, "ANO-DO-TRABALHO");
 				titulo = XmlUtils.getStringAttribute(ls, "TITULO-DO-TRABALHO");
-				
-				if (situacao.equals("Completo")){
-					
+
+				if (situacao.equals("COMPLETO")) {
+
 					artg.setSituacao(Situacao.CONCLUIDO);
-					
+
 				} else {
-					
+
 					artg.setSituacao(Situacao.RESUMO_EXPANDIDO);
-					
+
 				}
 
 			}
 
 			artg.setAno(ano);
 			artg.setTitulo(titulo);
-			artg.setVeiculo(revista);
-			artg.setTipoArtigo(TipoArtigo.ARTIGO_REVISTA);
+			artg.setVeiculo(evento);
+			artg.setTipoArtigo(TipoArtigo.ARTIGO_CONVENCAO);
+
+			for (Qualis qls : qualis) {
+
+				if (qls.getTipo() == TipoArtigo.ARTIGO_CONVENCAO) {
+					
+					if (qls.qualificador(evento.toLowerCase())) {
+
+						nivel = qls.getNivel();
+						break;
+						
+					}
+				}
+
+			}
 			
+			if (nivel.equals(NivelArtigo.Nao_Listado)){
+				
+				System.out.println(nome + "\t Evento" + titulo + "\t Não encontrado");
+				
+			}
+
+			artg.setNivelArtigo(nivel);
 			listaArtigos.add(artg);
 
 		}
-		System.out.println(artigos.size());
-		return null;
+		
+//		System.out.println("Quantidade Artigos eventos: " + listaArtigos.size());
+		return listaArtigos;
 
 	}
 
 	/**
-	 * Retorna a quantidade de orientações de Mestrado em andamento de dado
-	 * professor obedecendo as datas @anoInicial e @anoFinal através de um
-	 * arquivo @filepath
+	 * Retorna uma lista de Orientacao de Mestrado em Andamento
 	 */
-	private int getOrientacaoMestradoAndamento(String filePath, int anoInicial, int anoFinal) {
+	private List<Orientacao> getOrientacaoMestradoAndamento(String filePath) {
 
-		int a = 0;
-		List<Element> bancas = FactoryXML.getElementoXml(filePath, "ORIENTACAO-EM-ANDAMENTO-DE-MESTRADO");
-		for (Element e : bancas) {
+		List<Orientacao> orientacoes = new ArrayList<Orientacao>();
+
+		List<Element> lista = FactoryXML.getElementoXml(filePath, "ORIENTACAO-EM-ANDAMENTO-DE-MESTRADO");
+		int ano;
+		Situacao situacao = Situacao.ANDAMENTO;
+		Natureza natureza = Natureza.MESTRADO;
+
+		for (Element e : lista) {
+
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DA-ORIENTACAO-EM-ANDAMENTO-DE-MESTRADO");
+
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
-					a++;
-				}
+
+				ano = XmlUtils.getIntAttribute(es, "ANO");
+
+				Orientacao orientacao = new Orientacao();
+
+				orientacao.setAno(ano);
+				orientacao.setNatureza(natureza);
+				orientacao.setSituacao(situacao);
+
+				orientacoes.add(orientacao);
+
 			}
 		}
-		return a;
+
+		return orientacoes;
 
 	}
 
 	/**
-	 * Retorna a quantidade de orientações de TCC em andamento de dado professor
-	 * obedecendo as datas @anoInicial e @anoFinal através de um
-	 * arquivo @filepath
+	 * Retorna uma lista de Orientacao de TCC em Andamento
 	 */
-	private int getOrientacaoTCCAndamento(String filePath, int anoInicial, int anoFinal) {
+	private List<Orientacao> getOrientacaoTCCAndamento(String filePath) {
 
-		int a = 0;
-		List<Element> bancas = FactoryXML.getElementoXml(filePath, "ORIENTACAO-EM-ANDAMENTO-DE-GRADUACAO");
-		for (Element e : bancas) {
+		List<Orientacao> orientacoes = new ArrayList<Orientacao>();
+
+		List<Element> lista = FactoryXML.getElementoXml(filePath, "ORIENTACAO-EM-ANDAMENTO-DE-GRADUACAO");
+		List<Element> lista2 = FactoryXML.getElementoXml(filePath, "OUTRAS-ORIENTACOES-EM-ANDAMENTO");
+		int ano;
+		Situacao situacao = Situacao.ANDAMENTO;
+		Natureza natureza = Natureza.GRADUACAO;
+
+		for (Element e : lista) {
+
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DA-ORIENTACAO-EM-ANDAMENTO-DE-GRADUACAO");
+
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
-					a++;
-				}
+
+				ano = XmlUtils.getIntAttribute(es, "ANO");
+
+				Orientacao orientacao = new Orientacao();
+
+				orientacao.setAno(ano);
+				orientacao.setNatureza(natureza);
+				orientacao.setSituacao(situacao);
+
+				orientacoes.add(orientacao);
+
 			}
 		}
-		return a;
+
+		for (Element e : lista2) {
+
+			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-EM-ANDAMENTO");
+
+			for (Element es : l) {
+
+				ano = XmlUtils.getIntAttribute(es, "ANO");
+
+				Orientacao orientacao = new Orientacao();
+
+				orientacao.setAno(ano);
+				orientacao.setNatureza(natureza);
+				orientacao.setSituacao(situacao);
+
+				orientacoes.add(orientacao);
+
+			}
+		}
+
+		return orientacoes;
 
 	}
 
 	/**
-	 * Retorna a quantidade de orientações de Doutorado em andamento de dado
-	 * professor obedecendo as datas @anoInicial e @anoFinal através de um
-	 * arquivo @filepath
+	 * Retorna uma lista de Orientacao de Doutorados em Andamento
 	 */
-	private int getOrientacaoDoutoradoAndamento(String filePath, int anoInicial, int anoFinal) {
+	private List<Orientacao> getOrientacaoDoutoradoAndamento(String filePath) {
 
-		int a = 0;
-		List<Element> bancas = FactoryXML.getElementoXml(filePath, "ORIENTACAO-EM-ANDAMENTO-DE-DOUTORADO");
-		for (Element e : bancas) {
+		List<Orientacao> orientacoes = new ArrayList<Orientacao>();
+
+		List<Element> lista = FactoryXML.getElementoXml(filePath, "ORIENTACAO-EM-ANDAMENTO-DE-DOUTORADO");
+		int ano;
+		Situacao situacao = Situacao.ANDAMENTO;
+		Natureza natureza = Natureza.DOUTORADO;
+
+		for (Element e : lista) {
+
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DA-ORIENTACAO-EM-ANDAMENTO-DE-DOUTORADO");
+
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
-					a++;
-				}
+
+				ano = XmlUtils.getIntAttribute(es, "ANO");
+
+				Orientacao orientacao = new Orientacao();
+
+				orientacao.setAno(ano);
+				orientacao.setNatureza(natureza);
+				orientacao.setSituacao(situacao);
+
+				orientacoes.add(orientacao);
+
 			}
 		}
-		return a;
+
+		return orientacoes;
 
 	}
 
 	/**
-	 * Retorna a quantidade de orientações de Mestrado concluídas de dado
-	 * professor obedecendo as datas @anoInicial e @anoFinal através de um
-	 * arquivo @filepath
+	 * Retorna uma lista de Orientacao de Mestrado Concluida
 	 */
-	private int getOrientacaoMestradoConcluida(String filePath, int anoInicial, int anoFinal) {
+	private List<Orientacao> getOrientacaoMestradoConcluida(String filePath) {
 
-		int a = 0;
-		List<Element> bancas = FactoryXML.getElementoXml(filePath, "ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
-		for (Element e : bancas) {
+		List<Orientacao> orientacoes = new ArrayList<Orientacao>();
+
+		List<Element> lista = FactoryXML.getElementoXml(filePath, "ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
+		int ano;
+		Situacao situacao = Situacao.CONCLUIDO;
+		Natureza natureza = Natureza.MESTRADO;
+
+		for (Element e : lista) {
+
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-MESTRADO");
+
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
-					a++;
-				}
+
+				ano = XmlUtils.getIntAttribute(es, "ANO");
+
+				Orientacao orientacao = new Orientacao();
+
+				orientacao.setAno(ano);
+				orientacao.setNatureza(natureza);
+				orientacao.setSituacao(situacao);
+
+				orientacoes.add(orientacao);
+
 			}
 		}
-		return a;
+
+		return orientacoes;
 
 	}
 
 	/**
-	 * Retorna a quantidade de orientações de TCC concluídas de dado professor
-	 * obedecendo as datas @anoInicial e @anoFinal através de um
-	 * arquivo @filepath
+	 * Retorna uma lista de Orientacao de TCC Concluida
 	 */
-	private int getOrientacaoTCCConcluida(String filePath, int anoInicial, int anoFinal) {
+	private List<Orientacao> getOrientacaoTCCConcluida(String filePath) {
 
-		int a = 0;
-		List<Element> bancas = FactoryXML.getElementoXml(filePath, "OUTRAS-ORIENTACOES-CONCLUIDAS");
-		for (Element e : bancas) {
+		List<Orientacao> orientacoes = new ArrayList<Orientacao>();
+
+		List<Element> lista = FactoryXML.getElementoXml(filePath, "OUTRAS-ORIENTACOES-CONCLUIDAS");
+		int ano;
+		Situacao situacao = Situacao.CONCLUIDO;
+		Natureza natureza = Natureza.GRADUACAO;
+
+		for (Element e : lista) {
+
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DE-OUTRAS-ORIENTACOES-CONCLUIDAS");
+
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)
-						&& XmlUtils.getStringAttribute(es, "NATUREZA")
-								.contentEquals("TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO")) {
-					a++;
+
+				if (XmlUtils.getStringAttribute(es, "NATUREZA").equals("TRABALHO_DE_CONCLUSAO_DE_CURSO_GRADUACAO")) {
+
+					ano = XmlUtils.getIntAttribute(es, "ANO");
+
+					Orientacao orientacao = new Orientacao();
+
+					orientacao.setAno(ano);
+					orientacao.setNatureza(natureza);
+					orientacao.setSituacao(situacao);
+
+					orientacoes.add(orientacao);
+
 				}
+
 			}
 		}
-		return a;
+
+		return orientacoes;
 
 	}
 
 	/**
-	 * Retorna a quantidade de orientações de Doutorado concluídas de dado
-	 * professor obedecendo as datas @anoInicial e @anoFinal através de um
-	 * arquivo @filepath
+	 * Retorna uma lista de Orientacao de Doutorado Concluida
 	 */
-	private int getOrientacaoDoutoradoConcluida(String filePath, int anoInicial, int anoFinal) {
+	private List<Orientacao> getOrientacaoDoutoradoConcluida(String filePath) {
 
-		int a = 0;
-		List<Element> bancas = FactoryXML.getElementoXml(filePath, "ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
-		for (Element e : bancas) {
+		List<Orientacao> orientacoes = new ArrayList<Orientacao>();
+
+		List<Element> lista = FactoryXML.getElementoXml(filePath, "ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
+		int ano;
+		Situacao situacao = Situacao.CONCLUIDO;
+		Natureza natureza = Natureza.DOUTORADO;
+
+		for (Element e : lista) {
+
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DE-ORIENTACOES-CONCLUIDAS-PARA-DOUTORADO");
+
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
-					a++;
-				}
+
+				ano = XmlUtils.getIntAttribute(es, "ANO");
+
+				Orientacao orientacao = new Orientacao();
+
+				orientacao.setAno(ano);
+				orientacao.setNatureza(natureza);
+				orientacao.setSituacao(situacao);
+
+				orientacoes.add(orientacao);
+
 			}
 		}
-		return a;
+
+		return orientacoes;
 
 	}
 
 	/**
-	 * Retorna a quantidade de bancas de Mestrado de dado professor obedecendo
-	 * as datas @anoInicial e @anoFinal através de um arquivo @filepath
+	 * Retorna uma lista de Bancas de Mestrado
 	 */
-	private int getBancasMestrado(String filePath, int anoInicial, int anoFinal) {
+	private List<Banca> getBancasMestrado(String filePath) {
 
-		int a = 0;
-		List<Element> bancas = FactoryXML.getElementoXml(filePath, "PARTICIPACAO-EM-BANCA-DE-MESTRADO");
-		for (Element e : bancas) {
+		List<Banca> bancas = new ArrayList<Banca>();
+		int ano;
+		Natureza natureza = Natureza.MESTRADO;
+
+		List<Element> lista = FactoryXML.getElementoXml(filePath, "PARTICIPACAO-EM-BANCA-DE-MESTRADO");
+
+		for (Element e : lista) {
+
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DA-PARTICIPACAO-EM-BANCA-DE-MESTRADO");
+
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
-					a++;
-				}
+
+				ano = XmlUtils.getIntAttribute(es, "ANO");
+
+				Banca banca = new Banca();
+
+				banca.setAno(ano);
+				banca.setNatureza(natureza);
+
+				bancas.add(banca);
+
 			}
+
 		}
-		return a;
+
+		return bancas;
 
 	}
 
 	/**
-	 * Retorna a quantidade de bancas de Doutorado de dado professor obedecendo
-	 * as datas @anoInicial e @anoFinal através de um arquivo @filepath
+	 * Retorna uma lista de Bancas de Doutorado
 	 */
-	private int getBancasDoutorado(String filePath, int anoInicial, int anoFinal) {
+	private List<Banca> getBancasDoutorado(String filePath) {
 
-		int a = 0;
-		List<Element> bancas = FactoryXML.getElementoXml(filePath, "PARTICIPACAO-EM-BANCA-DE-DOUTORADO");
-		for (Element e : bancas) {
+		List<Banca> bancas = new ArrayList<Banca>();
+		int ano;
+		Natureza natureza = Natureza.DOUTORADO;
+
+		List<Element> lista = FactoryXML.getElementoXml(filePath, "PARTICIPACAO-EM-BANCA-DE-DOUTORADO");
+
+		for (Element e : lista) {
+
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DA-PARTICIPACAO-EM-BANCA-DE-DOUTORADO");
+
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
-					a++;
-				}
+
+				ano = XmlUtils.getIntAttribute(es, "ANO");
+
+				Banca banca = new Banca();
+
+				banca.setAno(ano);
+				banca.setNatureza(natureza);
+
+				bancas.add(banca);
+
 			}
+
 		}
-		return a;
+
+		return bancas;
 
 	}
 
 	/**
-	 * Retorna a quantidade de bancas de Graduação de dado professor obedecendo
-	 * as datas @anoInicial e @anoFinal através de um arquivo @filepath
+	 * Retorna uma lista de Bancas de Graduacao
 	 */
-	private int getBancasGraduacao(String filePath, int anoInicial, int anoFinal) {
+	private List<Banca> getBancasGraduacao(String filePath) {
 
-		int a = 0;
-		List<Element> bancas = FactoryXML.getElementoXml(filePath, "PARTICIPACAO-EM-BANCA-DE-GRADUACAO");
-		for (Element e : bancas) {
+		List<Banca> bancas = new ArrayList<Banca>();
+		int ano;
+		Natureza natureza = Natureza.GRADUACAO;
+
+		List<Element> lista = FactoryXML.getElementoXml(filePath, "PARTICIPACAO-EM-BANCA-DE-GRADUACAO");
+
+		for (Element e : lista) {
+
 			List<Element> l = XmlUtils.getElements(e, "DADOS-BASICOS-DA-PARTICIPACAO-EM-BANCA-DE-GRADUACAO");
+
 			for (Element es : l) {
-				if (XmlUtils.getIntAttribute(es, "ANO") >= (anoInicial)
-						&& XmlUtils.getIntAttribute(es, "ANO") <= (anoFinal)) {
-					a++;
-				}
+
+				ano = XmlUtils.getIntAttribute(es, "ANO");
+
+				Banca banca = new Banca();
+
+				banca.setAno(ano);
+				banca.setNatureza(natureza);
+
+				bancas.add(banca);
+
 			}
+
 		}
-		System.out.println(a);
-		return a;
+
+		return bancas;
 
 	}
 
@@ -325,33 +538,28 @@ public class LeitorXML {
 	 * Retorna uma lista de LinhaDePesquisa após alimentar a mesma com os dados
 	 * de seus respectivos professores
 	 */
-	public List<LinhaDePesquisa> getProfessor(Element e, List<LinhaDePesquisa> ldp) {
+	public List<Professor> getProfessor(Element elemento) {
 
-		List<Element> l = XmlUtils.getElements(e, "professor");
-		for (Element es : l) {
+		List<Professor> prfs = new ArrayList<Professor>();
+		
+		List<Element> l = XmlUtils.getElements(elemento, "professor");
+		
+		for (Element e : l) {
 
-			for (LinhaDePesquisa ldps : ldp) {
-
-				if (ldps.getNome().contentEquals(XmlUtils.getStringAttribute(e, "nome"))) {
-					ldps.addListProfessores(XmlUtils.getStringAttribute(es, "nome"),
-							XmlUtils.getStringAttribute(es, "codigo"));
-				}
-
-			}
-
-			// System.out.println(XmlUtils.getStringAttribute(e, "nome"));
-			// System.out.println("Nome : " + XmlUtils.getStringAttribute(es,
-			// "nome"));
-			// System.out.println("Codigo : " +XmlUtils.getStringAttribute(es,
-			// "codigo"));
-
+			Professor prf = new Professor();
+			
+			prf.setCodigo(XmlUtils.getStringAttribute(e, "codigo"));
+			prf.setNome(XmlUtils.getStringAttribute(e, "nome"));
+			
+			prfs.add(prf);
+			
 		}
 
-		return ldp;
+		return prfs;
 	}
 
 	/**
-	 * Retorna uma lista de LinhaDePesquisa obtida através do aquivo @filePath
+	 * Retorna uma lista de LinhaDePesquisa
 	 */
 	public List<LinhaDePesquisa> getLinhas(String filePath) {
 
@@ -364,27 +572,18 @@ public class LeitorXML {
 			String nome = XmlUtils.getStringAttribute(es, "nome");
 			LinhaDePesquisa linha = new LinhaDePesquisa();
 			linha.setNome(nome);
+			linha.setProfessores(getProfessor(es));
 			ldp.add(linha);
 
 		}
-		System.out.println(ldp.size());
+		
 		return ldp;
 
 	}
 
-	// private int countBancasMestrado(String filePath) {
-	//
-	// String tagName = "";
-	//
-	// List<Element> bancas = FactoryXML.getElementoXml(filePath, tagName);
-	//
-	// for (Element e : bancas) {
-	//
-	// }
-	//
-	// return 0;
-	// }
-
+	/**
+	 * Retorna uma lista de Qualis com sua qualificação, regex e tipo
+	 */
 	public List<Qualis> getQualis() {
 
 		List<Qualis> qualis = new ArrayList<Qualis>();
@@ -401,7 +600,67 @@ public class LeitorXML {
 			Qualis linha = new Qualis();
 
 			linha.setRegex(regex);
-			linha.setNivel(nivel);
+
+			switch (nivel) {
+			case "A1":
+
+				linha.setNivel(NivelArtigo.A1);
+
+				break;
+
+			case "A2":
+
+				linha.setNivel(NivelArtigo.A2);
+
+				break;
+
+			case "B1":
+
+				linha.setNivel(NivelArtigo.B1);
+
+				break;
+
+			case "B2":
+
+				linha.setNivel(NivelArtigo.B2);
+
+				break;
+
+			case "B3":
+
+				linha.setNivel(NivelArtigo.B3);
+
+				break;
+
+			case "B4":
+
+				linha.setNivel(NivelArtigo.B4);
+
+				break;
+
+			case "B5":
+
+				linha.setNivel(NivelArtigo.B5);
+
+				break;
+
+			case "C":
+
+				linha.setNivel(NivelArtigo.C);
+
+				break;
+
+			case "NC":
+				
+				linha.setNivel(NivelArtigo.NC);
+
+				break;
+
+			default:
+
+				break;
+			}
+
 			if (tipo.equals("Periódico")) {
 
 				linha.setTipo(TipoArtigo.ARTIGO_REVISTA);
@@ -415,7 +674,6 @@ public class LeitorXML {
 			qualis.add(linha);
 
 		}
-		System.out.println(qualis.size());
 		return qualis;
 
 	}

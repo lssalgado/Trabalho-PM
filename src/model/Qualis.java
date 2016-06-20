@@ -4,7 +4,18 @@ public class Qualis {
 
 	private String regex;
 	private TipoArtigo tipo;
-	private String nivel;
+	private NivelArtigo nivel;
+	
+	public boolean qualificador(String titulo){
+		
+		
+		if (titulo.matches(".*" + regex.toLowerCase() + ".*")){
+
+			return true;
+			
+		}
+		return false;
+	}
 
 	public String getRegex() {
 		return regex;
@@ -22,11 +33,11 @@ public class Qualis {
 		this.tipo = tipo;
 	}
 
-	public String getNivel() {
+	public NivelArtigo getNivel() {
 		return nivel;
 	}
 
-	public void setNivel(String nivel) {
+	public void setNivel(NivelArtigo nivel) {
 		this.nivel = nivel;
 	}
 

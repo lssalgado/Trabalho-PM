@@ -2,6 +2,7 @@ package accessories;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,9 +13,19 @@ public class Descompactador {
 
 	final static int BUFFER = 2048;
 
-	public static void descompactar(String arquivo) {
+	public void descompactar(String arquivo) {
 		
 		FileInputStream zipinho;
+		
+		File file = new File("curriculos/");
+		
+		if(!file.exists()){
+			
+			file.mkdirs();
+			
+		}
+			
+		
 		try {
 			
 			String destino = null;
@@ -27,7 +38,7 @@ public class Descompactador {
 				int count;
 				byte data[] = new byte[BUFFER];
 				// write the files to the disk
-				destino = "curriculos/" + arquivo.substring(0, (arquivo.length() - 4)) + "-" + entry.getName();
+				destino = "curriculos/" + arquivo.substring(0, (arquivo.length() - 4)) + ".xml";
 				FileOutputStream fos = new FileOutputStream(destino);
 				dest = new BufferedOutputStream(fos, BUFFER);
 				while ((count = zipOrigem.read(data, 0, BUFFER)) != -1) {

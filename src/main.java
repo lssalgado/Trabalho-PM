@@ -13,8 +13,7 @@ public class main {
 
 	public static void main(String[] args) {
 
-//		Controller.controller(args[0], args[1], args [2]);
-		Controller controlador = new Controller();
+		Controller controlador = new Controller(args[0], args[1], args[2]);
 		controlador.start();
 		
 		

@@ -6,38 +6,11 @@ public class Curriculo {
 
 	private List<Artigos> artigoPeriodico;
 	private List<Artigos> artigoEvento;
-	private int artigoPeriodicoA1;
-	private int artigoPeriodicoA2;
-	private int artigoPeriodicoB1;
-	private int artigoPeriodicoB2;
-	private int artigoPeriodicoB3;
-	private int artigoPeriodicoB4;
-	private int artigoPeriodicoC;
-	private int artigoPeriodicoNC;
-	private int artigoConferenciaA1;
-	private int artigoConferenciaA2;
-	private int artigoConferenciaB1;
-	private int artigoConferenciaB2;
-	private int artigoConferenciaB3;
-	private int artigoConferenciaB4;
-	private int artigoConferenciaC;
-	private int artigoConferenciaNC;
-	/*
-	 * private List<Artigos> artigoPeriodicoA1; private List<Artigos>
-	 * artigoPeriodicoA2; private List<Artigos> artigoPeriodicoB1; private
-	 * List<Artigos> artigoPeriodicoB2; private List<Artigos> artigoPeriodicoB3;
-	 * private List<Artigos> artigoPeriodicoB4; private List<Artigos>
-	 * artigoPeriodicoC; private List<Artigos> artigoPeriodicoNC; private
-	 * List<Artigos> artigoConferenciaA1; private List<Artigos>
-	 * artigoConferenciaA2; private List<Artigos> artigoConferenciaB1; private
-	 * List<Artigos> artigoConferenciaB2; private List<Artigos>
-	 * artigoConferenciaB3; private List<Artigos> artigoConferenciaB4; private
-	 * List<Artigos> artigoConferenciaC; private List<Artigos>
-	 * artigoConferenciaNC;
-	 */
+
 	private List<Banca> bancasDoutorado;
 	private List<Banca> bancasMestrado;
 	private List<Banca> bancasGraduacao;
+
 	private List<Orientacao> orientaçoesDoutoradoConcluidas;
 	private List<Orientacao> orientaçoesMestradoConcluidas;
 	private List<Orientacao> orientaçoesProjetoFinalConcluidas;
@@ -45,7 +18,120 @@ public class Curriculo {
 	private List<Orientacao> orientaçoesMestradoAndamento;
 	private List<Orientacao> orientaçoesProjetoFinalAndamento;
 
-	
+	private int artigoPeriodicoA1 = 0;
+	private int artigoPeriodicoA2 = 0;
+	private int artigoPeriodicoB1 = 0;
+	private int artigoPeriodicoB2 = 0;
+	private int artigoPeriodicoB3 = 0;
+	private int artigoPeriodicoB4 = 0;
+	private int artigoPeriodicoB5 = 0;
+	private int artigoPeriodicoC = 0;
+	private int artigoPeriodicoNC = 0;
+	private int artigoConferenciaA1 = 0;
+	private int artigoConferenciaA2 = 0;
+	private int artigoConferenciaB1 = 0;
+	private int artigoConferenciaB2 = 0;
+	private int artigoConferenciaB3 = 0;
+	private int artigoConferenciaB4 = 0;
+	private int artigoConferenciaB5 = 0;
+	private int artigoConferenciaC = 0;
+	private int artigoConferenciaNC = 0;
+
+	private int bancasDoutoradoValidas;
+	private int bancasMestradoValidas;
+	private int bancasGraduacaoValidas;
+
+	private int orientaçoesDoutoradoConcluidasValidas;
+	private int orientaçoesMestradoConcluidasValidas;
+	private int orientaçoesProjetoFinalConcluidasValidas;
+	private int orientaçoesDoutoradoAndamentoValidas;
+	private int orientaçoesMestradoAndamentoValidas;
+	private int orientaçoesProjetoFinalAndamentoValidas;
+
+	/**
+	 * Valida e conta conteúdo
+	 */
+	private void validaConteudo(int anoInicial, int anoFinal) {
+
+		setBancasDoutoradoValidas(validaBancas(bancasDoutorado, anoInicial, anoFinal));
+		setBancasMestradoValidas(validaBancas(bancasMestrado, anoInicial, anoFinal));
+		setBancasGraduacaoValidas(validaBancas(bancasGraduacao, anoInicial, anoFinal));
+
+		setOrientaçoesDoutoradoConcluidasValidas(
+				validaOrientacoes(orientaçoesDoutoradoConcluidas, anoInicial, anoFinal));
+		setOrientaçoesMestradoConcluidasValidas(validaOrientacoes(orientaçoesMestradoConcluidas, anoInicial, anoFinal));
+		setOrientaçoesProjetoFinalConcluidasValidas(
+				validaOrientacoes(orientaçoesProjetoFinalConcluidas, anoInicial, anoFinal));
+
+		setOrientaçoesDoutoradoAndamentoValidas(validaOrientacoes(orientaçoesDoutoradoAndamento, anoInicial, anoFinal));
+		setOrientaçoesMestradoAndamentoValidas(validaOrientacoes(orientaçoesMestradoAndamento, anoInicial, anoFinal));
+		setOrientaçoesProjetoFinalAndamentoValidas(
+				validaOrientacoes(orientaçoesProjetoFinalAndamento, anoInicial, anoFinal));
+
+	}
+
+	/**
+	 * Retorna uma String com todo o conteúdo do currículo
+	 */
+	public String getConteudo(int anoInicial, int anoFinal) {
+
+		validaConteudo(anoInicial, anoFinal);
+
+		String conteudo = artigoPeriodicoA1 + "\t" + artigoPeriodicoA2 + "\t" + artigoPeriodicoB1 + "\t"
+				+ artigoPeriodicoB2 + "\t" + artigoPeriodicoB3 + "\t" + artigoPeriodicoB4 + "\t" + artigoPeriodicoB5
+				+ "\t" + artigoPeriodicoC + "\t" + artigoPeriodicoNC + "\t" + artigoConferenciaA1 + "\t"
+				+ artigoConferenciaA2 + "\t" + artigoConferenciaB1 + "\t" + artigoConferenciaB2 + "\t"
+				+ artigoConferenciaB3 + "\t" + artigoConferenciaB4 + "\t" + artigoConferenciaB5 + "\t"
+				+ artigoConferenciaC + "\t" + artigoConferenciaNC + "\t" + bancasDoutoradoValidas + "\t"
+				+ bancasMestradoValidas + "\t" + bancasGraduacaoValidas + "\t" + orientaçoesDoutoradoConcluidasValidas
+				+ "\t" + orientaçoesMestradoConcluidasValidas + "\t" + orientaçoesProjetoFinalConcluidasValidas + "\t"
+				+ orientaçoesDoutoradoAndamentoValidas + "\t" + orientaçoesMestradoAndamentoValidas + "\t"
+				+ orientaçoesDoutoradoAndamentoValidas;
+
+		return conteudo;
+
+	}
+
+	/**
+	 * Retorna a quantidade de Bancas válidas
+	 */
+	public int validaBancas(List<Banca> list, int anoInicial, int anoFinal) {
+
+		int quantidade = 0;
+
+		for (Banca banca : list) {
+
+			if (banca.getAno() >= anoInicial && banca.getAno() <= anoFinal) {
+
+				quantidade++;
+
+			}
+
+		}
+
+		return quantidade;
+	}
+
+	/**
+	 * Retorna a quantidade de Orientacoes válidas
+	 */
+	public int validaOrientacoes(List<Orientacao> list, int anoInicial, int anoFinal) {
+
+		int quantidade = 0;
+
+		for (Orientacao orientacao : list) {
+
+			if (orientacao.getAno() >= anoInicial && orientacao.getAno() <= anoFinal) {
+
+				quantidade++;
+
+			}
+
+		}
+
+		return quantidade;
+	}
+
 	/**
 	 * Filtra os artigos válidos e conta quantos de cada tipo existem
 	 */
@@ -54,55 +140,61 @@ public class Curriculo {
 		for (Artigos artg : artigoEvento) {
 
 			if (artg.getSituacao() == Situacao.CONCLUIDO) {
-
-				if (artg.getAno() >= anoInicial && anoFinal <= artg.getAno()) {
+				
+				if (artg.getAno() >= anoInicial && anoFinal <= artg.getAno() && artg.getNivelArtigo() != null) {
 
 					switch (artg.getNivelArtigo()) {
 					case A1:
 
-						this.artigoConferenciaA1++;
+						artigoConferenciaA1++;
 
 						break;
 
 					case A2:
 
-						this.artigoConferenciaA2++;
+						artigoConferenciaA2++;
 
 						break;
 
 					case B1:
 
-						this.artigoConferenciaB1++;
+						artigoConferenciaB1++;
 
 						break;
 
 					case B2:
 
-						this.artigoConferenciaB2++;
+						artigoConferenciaB2++;
 
 						break;
 
 					case B3:
 
-						this.artigoConferenciaB3++;
+						artigoConferenciaB3++;
 
 						break;
 
 					case B4:
 
-						this.artigoConferenciaB4++;
+						artigoConferenciaB4++;
+
+						break;
+
+					case B5:
+
+						artigoConferenciaB5++;
 
 						break;
 
 					case C:
 
-						this.artigoConferenciaC++;
+						artigoConferenciaC++;
 
 						break;
 
 					case NC:
 
-						this.artigoConferenciaNC++;
+						artigoConferenciaNC++;
 
 						break;
 
@@ -119,55 +211,61 @@ public class Curriculo {
 		for (Artigos artg : artigoPeriodico) {
 
 			if (artg.getSituacao() == Situacao.CONCLUIDO) {
-
-				if (artg.getAno() >= anoInicial && anoFinal <= artg.getAno()) {
+				
+				if (artg.getAno() >= anoInicial && anoFinal <= artg.getAno() && artg.getNivelArtigo() != null) {
 
 					switch (artg.getNivelArtigo()) {
 					case A1:
 
-						this.artigoPeriodicoA1++;
+						artigoPeriodicoA1++;
 
 						break;
 
 					case A2:
 
-						this.artigoPeriodicoA2++;
+						artigoPeriodicoA2++;
 
 						break;
 
 					case B1:
 
-						this.artigoPeriodicoB1++;
+						artigoPeriodicoB1++;
 
 						break;
 
 					case B2:
 
-						this.artigoPeriodicoB2++;
+						artigoPeriodicoB2++;
 
 						break;
 
 					case B3:
 
-						this.artigoPeriodicoB3++;
+						artigoPeriodicoB3++;
 
 						break;
 
 					case B4:
 
-						this.artigoPeriodicoB4++;
+						artigoPeriodicoB4++;
+
+						break;
+
+					case B5:
+
+						artigoPeriodicoB5++;
 
 						break;
 
 					case C:
 
-						this.artigoPeriodicoC++;
+						artigoPeriodicoC++;
 
 						break;
 
 					case NC:
 
-						this.artigoPeriodicoNC++;
+						artigoPeriodicoNC++;
 
 						break;
 
@@ -395,6 +493,94 @@ public class Curriculo {
 
 	public void setOrientaçoesProjetoFinalAndamento(List<Orientacao> orientaçoesProjetoFinalAndamento) {
 		this.orientaçoesProjetoFinalAndamento = orientaçoesProjetoFinalAndamento;
+	}
+
+	public int getArtigoConferenciaB5() {
+		return artigoConferenciaB5;
+	}
+
+	public void setArtigoConferenciaB5(int artigoConferenciaB5) {
+		this.artigoConferenciaB5 = artigoConferenciaB5;
+	}
+
+	public int getArtigoPeriodicoB5() {
+		return artigoPeriodicoB5;
+	}
+
+	public void setArtigoPeriodicoB5(int artigoPeriodicoB5) {
+		this.artigoPeriodicoB5 = artigoPeriodicoB5;
+	}
+
+	public int getBancasDoutoradoValidas() {
+		return bancasDoutoradoValidas;
+	}
+
+	public void setBancasDoutoradoValidas(int bancasDoutoradoValidas) {
+		this.bancasDoutoradoValidas = bancasDoutoradoValidas;
+	}
+
+	public int getBancasMestradoValidas() {
+		return bancasMestradoValidas;
+	}
+
+	public void setBancasMestradoValidas(int bancasMestradoValidas) {
+		this.bancasMestradoValidas = bancasMestradoValidas;
+	}
+
+	public int getBancasGraduacaoValidas() {
+		return bancasGraduacaoValidas;
+	}
+
+	public void setBancasGraduacaoValidas(int bancasGraduacaoValidas) {
+		this.bancasGraduacaoValidas = bancasGraduacaoValidas;
+	}
+
+	public int getOrientaçoesDoutoradoConcluidasValidas() {
+		return orientaçoesDoutoradoConcluidasValidas;
+	}
+
+	public void setOrientaçoesDoutoradoConcluidasValidas(int orientaçoesDoutoradoConcluidasValidas) {
+		this.orientaçoesDoutoradoConcluidasValidas = orientaçoesDoutoradoConcluidasValidas;
+	}
+
+	public int getOrientaçoesMestradoConcluidasValidas() {
+		return orientaçoesMestradoConcluidasValidas;
+	}
+
+	public void setOrientaçoesMestradoConcluidasValidas(int orientaçoesMestradoConcluidasValidas) {
+		this.orientaçoesMestradoConcluidasValidas = orientaçoesMestradoConcluidasValidas;
+	}
+
+	public int getOrientaçoesProjetoFinalConcluidasValidas() {
+		return orientaçoesProjetoFinalConcluidasValidas;
+	}
+
+	public void setOrientaçoesProjetoFinalConcluidasValidas(int orientaçoesProjetoFinalConcluidasValidas) {
+		this.orientaçoesProjetoFinalConcluidasValidas = orientaçoesProjetoFinalConcluidasValidas;
+	}
+
+	public int getOrientaçoesDoutoradoAndamentoValidas() {
+		return orientaçoesDoutoradoAndamentoValidas;
+	}
+
+	public void setOrientaçoesDoutoradoAndamentoValidas(int orientaçoesDoutoradoAndamentoValidas) {
+		this.orientaçoesDoutoradoAndamentoValidas = orientaçoesDoutoradoAndamentoValidas;
+	}
+
+	public int getOrientaçoesMestradoAndamentoValidas() {
+		return orientaçoesMestradoAndamentoValidas;
+	}
+
+	public void setOrientaçoesMestradoAndamentoValidas(int orientaçoesMestradoAndamentoValidas) {
+		this.orientaçoesMestradoAndamentoValidas = orientaçoesMestradoAndamentoValidas;
+	}
+
+	public int getOrientaçoesProjetoFinalAndamentoValidas() {
+		return orientaçoesProjetoFinalAndamentoValidas;
+	}
+
+	public void setOrientaçoesProjetoFinalAndamentoValidas(int orientaçoesProjetoFinalAndamentoValidas) {
+		this.orientaçoesProjetoFinalAndamentoValidas = orientaçoesProjetoFinalAndamentoValidas;
 	}
 
 }

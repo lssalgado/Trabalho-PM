@@ -7,41 +7,47 @@ public class LinhaDePesquisa {
 
 	private List<Professor> professores = new ArrayList<Professor>();
 	private String nome;
-	private int artigosA1Revistas;
-	private int artigosA2Revistas;
-	private int artigosB1Revistas;
-	private int artigosB2Revistas;
-	private int artigosB3Revistas;
-	private int artigosB4Revistas;
-	private int artigosCRevistas;
-	private int artigosNCRevistas;
-	private int artigosA1Eventos;
-	private int artigosA2Eventos;
-	private int artigosB1Eventos;
-	private int artigosB2Eventos;
-	private int artigosB3Eventos;
-	private int artigosB4Eventos;
-	private int artigosCEventos;
-	private int artigosNCEventos;
-	private int bancasDoutorado;
-	private int bancasMestrado;
-	private int bancasProjetoFinal;
-	private int orientaçoesDoutoradoConcluidas;
-	private int orientaçoesMestradoConcluidas;
-	private int orientaçoesProjetoFinalConcluidas;
-	private int orientaçoesDoutoradoAndamento;
-	private int orientaçoesMestradoAndamento;
-	private int orientaçoesProjetoFinalAndamento;
+	private int artigosA1Revistas = 0;
+	private int artigosA2Revistas = 0;
+	private int artigosB1Revistas = 0;
+	private int artigosB2Revistas = 0;
+	private int artigosB3Revistas = 0;
+	private int artigosB4Revistas = 0;
+	private int artigosB5Revistas = 0;
+	private int artigosCRevistas = 0;
+	private int artigosNCRevistas = 0;
+	private int artigosA1Eventos = 0;
+	private int artigosA2Eventos = 0;
+	private int artigosB1Eventos = 0;
+	private int artigosB2Eventos = 0;
+	private int artigosB3Eventos = 0;
+	private int artigosB4Eventos = 0;
+	private int artigosB5Eventos = 0;
+	private int artigosCEventos = 0;
+	private int artigosNCEventos = 0;
+	private int bancasDoutorado = 0;
+	private int bancasMestrado = 0;
+	private int bancasProjetoFinal = 0;
+	private int orientaçoesDoutoradoConcluidas = 0;
+	private int orientaçoesMestradoConcluidas = 0;
+	private int orientaçoesProjetoFinalConcluidas = 0;
+	private int orientaçoesDoutoradoAndamento = 0;
+	private int orientaçoesMestradoAndamento = 0;
+	private int orientaçoesProjetoFinalAndamento = 0;
 
-	public void printProfessores() {
+	public String getConteudo() {
 
-		for (Professor prf : professores) {
-
-			System.out.println("Nome : " + prf.getNome());
-			System.out.println("Codigo : " + prf.getCodigo());
-
-		}
-
+		String conteudo = nome + "\t" + artigosA1Revistas + "\t" + artigosA2Revistas + "\t" + artigosB1Revistas + "\t"
+				+ artigosB2Revistas + "\t" + artigosB3Revistas + "\t" + artigosB4Revistas + "\t" + artigosB5Revistas
+				+ "\t" + artigosCRevistas + "\t" + artigosNCRevistas + "\t" + artigosA1Eventos + "\t" + artigosA2Eventos
+				+ "\t" + artigosB1Eventos + "\t" + artigosB2Eventos + "\t" + artigosB3Eventos + "\t" + artigosB4Eventos
+				+ "\t" + artigosB5Eventos + "\t" + artigosCEventos + "\t" + artigosNCEventos + "\t" + bancasDoutorado
+				+ "\t" + bancasMestrado + "\t" + bancasProjetoFinal + "\t" + orientaçoesDoutoradoConcluidas + "\t"
+				+ orientaçoesMestradoConcluidas + "\t" + orientaçoesProjetoFinalConcluidas + "\t"
+				+ orientaçoesDoutoradoAndamento + "\t" + orientaçoesMestradoAndamento + "\t"
+				+ orientaçoesProjetoFinalAndamento;
+		
+		return conteudo;
 	}
 
 	public void addListProfessores(String nomeProfessor, String codigo) {
@@ -50,6 +56,51 @@ public class LinhaDePesquisa {
 		prf.setNome(nomeProfessor);
 		prf.setCodigo(codigo);
 		professores.add(prf);
+
+	}
+
+	public String somaCurriculos() {
+
+		for (Professor prf : professores) {
+
+			Curriculo curriculo = prf.getCurriculo();
+
+			artigosA1Eventos += curriculo.getArtigoConferenciaA1();
+			artigosA2Eventos += curriculo.getArtigoConferenciaA2();
+			artigosB1Eventos += curriculo.getArtigoConferenciaB1();
+			artigosB2Eventos += curriculo.getArtigoConferenciaB2();
+			artigosB3Eventos += curriculo.getArtigoConferenciaB3();
+			artigosB4Eventos += curriculo.getArtigoConferenciaB4();
+			artigosB5Eventos += curriculo.getArtigoConferenciaB5();
+			artigosCEventos += curriculo.getArtigoConferenciaC();
+			artigosNCEventos += curriculo.getArtigoConferenciaNC();
+
+			artigosA1Revistas += curriculo.getArtigoPeriodicoA1();
+			artigosA2Revistas += curriculo.getArtigoPeriodicoA2();
+			artigosB1Revistas += curriculo.getArtigoPeriodicoB1();
+			artigosB2Revistas += curriculo.getArtigoPeriodicoB2();
+			artigosB3Revistas += curriculo.getArtigoPeriodicoB3();
+			artigosB4Revistas += curriculo.getArtigoPeriodicoB4();
+			artigosB5Revistas += curriculo.getArtigoPeriodicoB5();
+			artigosCRevistas += curriculo.getArtigoPeriodicoC();
+			artigosNCRevistas += curriculo.getArtigoPeriodicoNC();
+
+			bancasDoutorado += curriculo.getBancasDoutoradoValidas();
+			bancasMestrado += curriculo.getBancasMestradoValidas();
+			bancasProjetoFinal += curriculo.getBancasGraduacaoValidas();
+
+			orientaçoesDoutoradoConcluidas += curriculo.getOrientaçoesDoutoradoConcluidasValidas();
+			orientaçoesMestradoConcluidas += curriculo.getOrientaçoesMestradoConcluidasValidas();
+			orientaçoesProjetoFinalConcluidas += curriculo.getOrientaçoesProjetoFinalConcluidasValidas();
+
+			orientaçoesDoutoradoAndamento += curriculo.getOrientaçoesDoutoradoAndamentoValidas();
+			orientaçoesMestradoAndamento += curriculo.getOrientaçoesMestradoAndamentoValidas();
+			orientaçoesProjetoFinalAndamento += curriculo.getOrientaçoesProjetoFinalAndamentoValidas();
+
+		}
+
+		String conteudo = getConteudo();
+		return conteudo;
 
 	}
 
@@ -267,6 +318,22 @@ public class LinhaDePesquisa {
 
 	public void setProfessores(List<Professor> professores) {
 		this.professores = professores;
+	}
+
+	public int getArtigosB5Eventos() {
+		return artigosB5Eventos;
+	}
+
+	public void setArtigosB5Eventos(int artigosB5Eventos) {
+		this.artigosB5Eventos = artigosB5Eventos;
+	}
+
+	public int getArtigosB5Revistas() {
+		return artigosB5Revistas;
+	}
+
+	public void setArtigosB5Revistas(int artigosB5Revistas) {
+		this.artigosB5Revistas = artigosB5Revistas;
 	}
 
 }

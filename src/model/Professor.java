@@ -4,6 +4,7 @@ public class Professor {
 
 	private String nome;
 	private String codigo;
+	private String path = "curriculos/" + codigo + ".xml";
 	private Curriculo curriculo;
 
 	public String getNome() {

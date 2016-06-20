@@ -14,8 +14,8 @@ import model.Professor;
 
 public class Escritor {
 
-	public static void escreveArquivo(List<LinhaDePesquisa> linhaDePesquisa,
-			String programa) {
+	public void escreveArquivo(List<LinhaDePesquisa> linhaDePesquisa,
+			String programa, int anoInicial, int anoFinal) {
 
 		try {
 			Writer escritor = new BufferedWriter(new OutputStreamWriter(
@@ -26,16 +26,17 @@ public class Escritor {
 				List<Professor> professores = ldp.getProfessores();
 
 				for (Professor prf : professores) {
-
-					escritor.write(prf.getNome() + "	" + prf.getCodigo() + breakLine);
-					System.out.println(prf.getNome() + "	" + prf.getCodigo());
+					
+					escritor.write(prf.getNome() + "\t" + prf.getCurriculo().getConteudo(anoInicial, anoFinal) + breakLine);
 
 				}
 
-				escritor.write(ldp.getNome() + "\n");
+				ldp.somaCurriculos();
+				escritor.write("Total da Linha de Pesquisa " + ldp.getConteudo() + "\t" + breakLine);
+				
 
 			}
-
+			escritor.write("Total do Programa " + programa);
 			escritor.close();
 		} catch (UnsupportedEncodingException e) {
 			System.err.println("The character encoding is not supported.");
