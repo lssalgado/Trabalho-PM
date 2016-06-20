@@ -49,8 +49,8 @@ public class Escritor {
 
 				}
 
-				ldp.somaCurriculos();
-				escritor.write("Total da Linha de Pesquisa" + ldp.getConteudo() + "\t" + breakLine);
+				ldp.setCurriculo();
+				escritor.write("Total da Linha de Pesquisa" + ldp.getCurriculo().getConteudo(anoInicial, anoFinal) + "\t" + breakLine);
 
 			}
 			prog.setCurriculo();

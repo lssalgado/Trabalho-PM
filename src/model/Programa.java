@@ -18,44 +18,44 @@ public class Programa {
 
 		for (LinhaDePesquisa ldp : linhas) {
 
-			curriculo.setArtigoConferenciaA1(curriculo.getArtigoConferenciaA1() + ldp.getArtigosA1Eventos());
-			curriculo.setArtigoConferenciaA2(curriculo.getArtigoConferenciaA2() + ldp.getArtigosA2Eventos());
-			curriculo.setArtigoConferenciaB1(curriculo.getArtigoConferenciaB1() + ldp.getArtigosB1Eventos());
-			curriculo.setArtigoConferenciaB2(curriculo.getArtigoConferenciaB2() + ldp.getArtigosB2Eventos());
-			curriculo.setArtigoConferenciaB3(curriculo.getArtigoConferenciaB3() + ldp.getArtigosB3Eventos());
-			curriculo.setArtigoConferenciaB4(curriculo.getArtigoConferenciaB4() + ldp.getArtigosB4Eventos());
-			curriculo.setArtigoConferenciaB5(curriculo.getArtigoConferenciaB5() + ldp.getArtigosB5Eventos());
-			curriculo.setArtigoConferenciaC(curriculo.getArtigoConferenciaC() + ldp.getArtigosCEventos());
-			curriculo.setArtigoConferenciaNC(curriculo.getArtigoConferenciaNC() + ldp.getArtigosNCEventos());
+			curriculo.setArtigoConferenciaA1(curriculo.getArtigoConferenciaA1() + ldp.getCurriculo().getArtigoConferenciaA1());
+			curriculo.setArtigoConferenciaA2(curriculo.getArtigoConferenciaA2() + ldp.getCurriculo().getArtigoConferenciaA2());
+			curriculo.setArtigoConferenciaB1(curriculo.getArtigoConferenciaB1() + ldp.getCurriculo().getArtigoConferenciaB1());
+			curriculo.setArtigoConferenciaB2(curriculo.getArtigoConferenciaB2() + ldp.getCurriculo().getArtigoConferenciaB2());
+			curriculo.setArtigoConferenciaB3(curriculo.getArtigoConferenciaB3() + ldp.getCurriculo().getArtigoConferenciaB3());
+			curriculo.setArtigoConferenciaB4(curriculo.getArtigoConferenciaB4() + ldp.getCurriculo().getArtigoConferenciaB4());
+			curriculo.setArtigoConferenciaB5(curriculo.getArtigoConferenciaB5() + ldp.getCurriculo().getArtigoConferenciaB5());
+			curriculo.setArtigoConferenciaC(curriculo.getArtigoConferenciaC() + ldp.getCurriculo().getArtigoConferenciaC());
+			curriculo.setArtigoConferenciaNC(curriculo.getArtigoConferenciaNC() + ldp.getCurriculo().getArtigoConferenciaNC());
 
-			curriculo.setArtigoPeriodicoA1(curriculo.getArtigoPeriodicoA1() + ldp.getArtigosA1Revistas());
-			curriculo.setArtigoPeriodicoA2(curriculo.getArtigoPeriodicoA2() + ldp.getArtigosA2Revistas());
-			curriculo.setArtigoPeriodicoB1(curriculo.getArtigoPeriodicoB1() + ldp.getArtigosB1Revistas());
-			curriculo.setArtigoPeriodicoB2(curriculo.getArtigoPeriodicoB2() + ldp.getArtigosB2Revistas());
-			curriculo.setArtigoPeriodicoB3(curriculo.getArtigoPeriodicoB3() + ldp.getArtigosB3Revistas());
-			curriculo.setArtigoPeriodicoB4(curriculo.getArtigoPeriodicoB4() + ldp.getArtigosB4Revistas());
-			curriculo.setArtigoPeriodicoB5(curriculo.getArtigoPeriodicoB5() + ldp.getArtigosB5Revistas());
-			curriculo.setArtigoPeriodicoC(curriculo.getArtigoPeriodicoC() + ldp.getArtigosCRevistas());
-			curriculo.setArtigoPeriodicoNC(curriculo.getArtigoPeriodicoNC() + ldp.getArtigosNCRevistas());
+			curriculo.setArtigoPeriodicoA1(curriculo.getArtigoPeriodicoA1() + ldp.getCurriculo().getArtigoPeriodicoA1());
+			curriculo.setArtigoPeriodicoA2(curriculo.getArtigoPeriodicoA2() + ldp.getCurriculo().getArtigoPeriodicoA2());
+			curriculo.setArtigoPeriodicoB1(curriculo.getArtigoPeriodicoB1() + ldp.getCurriculo().getArtigoPeriodicoB1());
+			curriculo.setArtigoPeriodicoB2(curriculo.getArtigoPeriodicoB2() + ldp.getCurriculo().getArtigoPeriodicoB2());
+			curriculo.setArtigoPeriodicoB3(curriculo.getArtigoPeriodicoB3() + ldp.getCurriculo().getArtigoPeriodicoB3());
+			curriculo.setArtigoPeriodicoB4(curriculo.getArtigoPeriodicoB4() + ldp.getCurriculo().getArtigoPeriodicoB4());
+			curriculo.setArtigoPeriodicoB5(curriculo.getArtigoPeriodicoB5() + ldp.getCurriculo().getArtigoPeriodicoB5());
+			curriculo.setArtigoPeriodicoC(curriculo.getArtigoPeriodicoC() + ldp.getCurriculo().getArtigoPeriodicoC());
+			curriculo.setArtigoPeriodicoNC(curriculo.getArtigoPeriodicoNC() + ldp.getCurriculo().getArtigoPeriodicoNC());
 
-			curriculo.setBancasDoutoradoValidas(curriculo.getBancasDoutoradoValidas() + ldp.getBancasDoutorado());
-			curriculo.setBancasMestradoValidas(curriculo.getBancasMestradoValidas() + ldp.getBancasMestrado());
-			curriculo.setBancasGraduacaoValidas(curriculo.getBancasGraduacaoValidas() + ldp.getBancasProjetoFinal());
+			curriculo.setBancasDoutoradoValidas(curriculo.getBancasDoutoradoValidas() + ldp.getCurriculo().getBancasDoutoradoValidas());
+			curriculo.setBancasMestradoValidas(curriculo.getBancasMestradoValidas() + ldp.getCurriculo().getBancasMestradoValidas());
+			curriculo.setBancasGraduacaoValidas(curriculo.getBancasGraduacaoValidas() + ldp.getCurriculo().getBancasGraduacaoValidas());
 
 			curriculo.setOrientaçoesDoutoradoConcluidasValidas(
-					curriculo.getOrientaçoesDoutoradoConcluidasValidas() + ldp.getOrientaçoesDoutoradoConcluidas());
+					curriculo.getOrientaçoesDoutoradoConcluidasValidas() + ldp.getCurriculo().getOrientaçoesDoutoradoConcluidasValidas());
 			curriculo.setOrientaçoesMestradoConcluidasValidas(
-					curriculo.getOrientaçoesMestradoConcluidasValidas() + ldp.getOrientaçoesMestradoConcluidas());
+					curriculo.getOrientaçoesMestradoConcluidasValidas() + ldp.getCurriculo().getOrientaçoesMestradoConcluidasValidas());
 			curriculo
 					.setOrientaçoesProjetoFinalConcluidasValidas(curriculo.getOrientaçoesProjetoFinalConcluidasValidas()
-							+ ldp.getOrientaçoesProjetoFinalConcluidas());
+							+ ldp.getCurriculo().getOrientaçoesProjetoFinalConcluidasValidas());
 
 			curriculo.setOrientaçoesDoutoradoAndamentoValidas(
-					curriculo.getOrientaçoesDoutoradoAndamentoValidas() + ldp.getOrientaçoesDoutoradoAndamento());
+					curriculo.getOrientaçoesDoutoradoAndamentoValidas() + ldp.getCurriculo().getOrientaçoesDoutoradoAndamentoValidas());
 			curriculo.setOrientaçoesMestradoAndamentoValidas(
-					curriculo.getOrientaçoesMestradoAndamentoValidas() + ldp.getOrientaçoesMestradoAndamento());
+					curriculo.getOrientaçoesMestradoAndamentoValidas() + ldp.getCurriculo().getOrientaçoesMestradoAndamentoValidas());
 			curriculo.setOrientaçoesProjetoFinalAndamentoValidas(
-					curriculo.getOrientaçoesProjetoFinalAndamentoValidas() + ldp.getOrientaçoesProjetoFinalAndamento());
+					curriculo.getOrientaçoesProjetoFinalAndamentoValidas() + ldp.getCurriculo().getOrientaçoesProjetoFinalAndamentoValidas());
 
 		}
 
